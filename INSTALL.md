@@ -19,21 +19,21 @@ This guide will step-by-step walk you through installing all necessary software 
 
 ### Step 1.1: Installing Visual Studio Code
 
-1. **Stiahnite VS Code:**
-   - Otvorte prehliadač a prejdite na: https://code.visualstudio.com/
-   - Kliknite na **"Download for Windows"**
-   - Stiahnite sa súbor `VSCodeUserSetup-x64-X.XX.X.exe`
+1. **Download VS Code:**
+   - Open your browser and go to: https://code.visualstudio.com/
+   - Click on **"Download for Windows"**
+   - Download the file `VSCodeUserSetup-x64-X.XX.X.exe`
 
-2. **Inštalujte VS Code:**
-   - Spustite stiahnutý inštalátor
-   - Akceptujte licenčné podmienky
-   - **DÔLEŽITÉ:** Zaškrtnite tieto možnosti:
+2. **Install VS Code:**
+   - Run the downloaded installer
+   - Accept the license terms
+   - **IMPORTANT:** Check these options:
      - ✅ Add "Open with Code" action to Windows Explorer file context menu
      - ✅ Add "Open with Code" action to Windows Explorer directory context menu
      - ✅ Register Code as an editor for supported file types
      - ✅ Add to PATH
-   - Kliknite na **"Install"**
-   - Po dokončení kliknite na **"Finish"**
+   - Click on **"Install"**
+   - After completion, click on **"Finish"**
 
 ### Step 1.2: Installing Git for Windows
 
