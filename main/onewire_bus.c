@@ -1,3 +1,31 @@
+/**
+ * @file onewire_bus.c
+ * @brief 1-Wire (OneWire) Bus Protocol Implementation
+ * @version 1.1.0
+ * @date 2025-12-29
+ * 
+ * @details
+ * Low-level 1-Wire bus driver for ESP32-C6.
+ * Implements Dallas/Maxim 1-Wire protocol for communication with devices like DS18B20.
+ * 
+ * Protocol features:
+ * - Single data line (bidirectional, open-drain)
+ * - Master-slave communication
+ * - CRC8 error checking
+ * - ROM search algorithm for device enumeration
+ * - Microsecond-precise timing using esp_rom_delay_us()
+ * 
+ * Timing requirements (standard speed):
+ * - Reset pulse: 480µs LOW
+ * - Presence detect: 15-60µs after reset
+ * - Write 1: 6µs LOW, 64µs HIGH
+ * - Write 0: 60µs LOW, 10µs HIGH
+ * - Read: 6µs LOW, 9µs sample, 55µs recovery
+ * 
+ * @note Uses GPIO open-drain mode with external 4.7kΩ pull-up resistor
+ * @note No internal pull-up is used (disabled)
+ */
+
 #include "onewire_bus.h"
 #include "esp_rom_sys.h"
 #include "esp_log.h"
@@ -5,12 +33,26 @@
 
 static const char *TAG = "ONEWIRE";
 
-#define RESET_DELAY_US 480
-#define PRESENCE_DELAY_US 70
-#define WRITE_SLOT_US 60
-#define READ_SLOT_US 6
-#define RECOVERY_US 10
+// 1-Wire Protocol Timing Constants (standard speed, microseconds)
+#define RESET_DELAY_US 480      ///< Reset pulse duration
+#define PRESENCE_DELAY_US 70    ///< Wait time before checking presence pulse
 
+/**
+ * @brief Write single bit to 1-Wire bus
+ * 
+ * Timing for bit value 1:
+ * - Pull LOW for 6µs
+ * - Release HIGH for 64µs (total slot: 70µs)
+ * 
+ * Timing for bit value 0:
+ * - Pull LOW for 60µs
+ * - Release HIGH for 10µs (total slot: 70µs)
+ * 
+ * @param bus Pointer to OneWire bus handle
+ * @param bit Bit value (true = 1, false = 0)
+ * 
+ * @note All write slots must be at least 60µs with 1µs recovery between slots
+ */
 static void onewire_bus_write_bit(const onewire_bus_handle_t *bus, bool bit)
 {
     if (bit) {
@@ -26,6 +68,22 @@ static void onewire_bus_write_bit(const onewire_bus_handle_t *bus, bool bit)
     }
 }
 
+/**
+ * @brief Read single bit from 1-Wire bus
+ * 
+ * Read timing:
+ * 1. Pull LOW for 6µs (initiate read slot)
+ * 2. Release to HIGH
+ * 3. Wait 9µs
+ * 4. Sample the bit (device pulls LOW for 0, remains HIGH for 1)
+ * 5. Wait 55µs for recovery (total slot: 70µs)
+ * 
+ * @param bus Pointer to OneWire bus handle
+ * @return true if bit is 1, false if bit is 0
+ * 
+ * @note Master must release bus within 15µs for slave to respond
+ * @note Sampling window is 15µs after slot starts
+ */
 static bool onewire_bus_read_bit(const onewire_bus_handle_t *bus)
 {
     gpio_set_level(bus->pin, 0);
@@ -39,6 +97,19 @@ static bool onewire_bus_read_bit(const onewire_bus_handle_t *bus)
     return bit;
 }
 
+/**
+ * @brief Initialize 1-Wire bus on specified GPIO
+ * 
+ * Configures GPIO as open-drain output for 1-Wire communication.
+ * Requires external 4.7kΩ pull-up resistor between data line and VCC.
+ * 
+ * @param config Pointer to bus configuration structure
+ * @param handle Pointer to bus handle (will be initialized)
+ * @return ESP_OK on success, error code otherwise
+ * 
+ * @note Internal pull-up is disabled (external resistor required)
+ * @note Bus is set to idle state (HIGH) after initialization
+ */
 esp_err_t onewire_bus_init(const onewire_bus_config_t *config, onewire_bus_handle_t *handle)
 {
     gpio_config_t io_conf = {
@@ -61,6 +132,22 @@ esp_err_t onewire_bus_init(const onewire_bus_config_t *config, onewire_bus_handl
     return ESP_OK;
 }
 
+/**
+ * @brief Perform 1-Wire bus reset and presence detect
+ * 
+ * Reset sequence:
+ * 1. Master pulls bus LOW for 480µs
+ * 2. Master releases bus to HIGH
+ * 3. Wait 70µs
+ * 4. Check for presence pulse (slave pulls LOW for 60-240µs)
+ * 5. Wait 410µs for completion (total: 960µs minimum)
+ * 
+ * @param bus Pointer to OneWire bus handle
+ * @return true if device presence detected, false otherwise
+ * 
+ * @note Presence pulse indicates at least one device is on the bus
+ * @note Must be called before any communication sequence
+ */
 bool onewire_bus_reset(const onewire_bus_handle_t *bus)
 {
     gpio_set_level(bus->pin, 0);
@@ -74,6 +161,17 @@ bool onewire_bus_reset(const onewire_bus_handle_t *bus)
     return presence;
 }
 
+/**
+ * @brief Write byte to 1-Wire bus (LSB first)
+ * 
+ * Sends 8 bits sequentially, least significant bit first.
+ * Total time: ~560µs (8 bits × 70µs per bit)
+ * 
+ * @param bus Pointer to OneWire bus handle
+ * @param data Byte value to write
+ * 
+ * @note 1-Wire protocol uses LSB-first bit order
+ */
 void onewire_bus_write_byte(const onewire_bus_handle_t *bus, uint8_t data)
 {
     for (int i = 0; i < 8; i++) {
@@ -81,6 +179,17 @@ void onewire_bus_write_byte(const onewire_bus_handle_t *bus, uint8_t data)
     }
 }
 
+/**
+ * @brief Read byte from 1-Wire bus (LSB first)
+ * 
+ * Reads 8 bits sequentially, least significant bit first.
+ * Total time: ~560µs (8 bits × 70µs per bit)
+ * 
+ * @param bus Pointer to OneWire bus handle
+ * @return Byte value read from bus
+ * 
+ * @note 1-Wire protocol uses LSB-first bit order
+ */
 uint8_t onewire_bus_read_byte(const onewire_bus_handle_t *bus)
 {
     uint8_t data = 0;
@@ -92,6 +201,32 @@ uint8_t onewire_bus_read_byte(const onewire_bus_handle_t *bus)
     return data;
 }
 
+/**
+ * @brief Search for 1-Wire devices on the bus (ROM Search Algorithm)
+ * 
+ * Implements Dallas/Maxim ROM Search algorithm to enumerate all devices.
+ * Each device has a unique 64-bit ROM code:
+ * - Byte 0: Family code (0x28 for DS18B20)
+ * - Bytes 1-6: Serial number (48-bit unique ID)
+ * - Byte 7: CRC8 checksum
+ * 
+ * Algorithm:
+ * 1. Send SEARCH ROM command (0xF0)
+ * 2. For each of 64 bits:
+ *    a. Read bit
+ *    b. Read complement bit
+ *    c. Resolve conflicts (multiple devices)
+ * 3. Continue until all devices found
+ * 
+ * @param bus Pointer to OneWire bus handle
+ * @param rom_code Pointer to 8-byte buffer for ROM code result
+ * @param search_mode false = start new search, true = continue previous search
+ * @return true if device found, false if search complete
+ * 
+ * @note Call repeatedly with search_mode=true to find all devices
+ * @note Static variables maintain search state between calls
+ * @note Returns false when all devices have been enumerated
+ */
 bool onewire_bus_search(onewire_bus_handle_t *bus, uint8_t *rom_code, bool search_mode)
 {
     static uint8_t last_rom[8];
@@ -179,8 +314,25 @@ bool onewire_bus_search(onewire_bus_handle_t *bus, uint8_t *rom_code, bool searc
     return search_result;
 }
 
-// CRC8 calculation for OneWire (Dallas/Maxim)
-// Polynomial: x^8 + x^5 + x^4 + 1 (0x8C)
+/**
+ * @brief Calculate CRC8 checksum for 1-Wire data
+ * 
+ * Implements Dallas/Maxim CRC8 algorithm:
+ * - Polynomial: x^8 + x^5 + x^4 + 1 (0x8C after bit reflection)
+ * - Initial value: 0x00
+ * - No final XOR
+ * 
+ * Used to verify:
+ * - ROM codes (byte 7 is CRC of bytes 0-6)
+ * - DS18B20 scratchpad data (byte 8 is CRC of bytes 0-7)
+ * 
+ * @param data Pointer to data buffer
+ * @param len Number of bytes to process
+ * @return CRC8 checksum value
+ * 
+ * @note This is the standard Dallas/Maxim CRC8 (DOW-CRC)
+ * @note Different from CRC8-CCITT or other CRC8 variants
+ */
 uint8_t onewire_bus_crc8(const uint8_t *data, uint8_t len)
 {
     uint8_t crc = 0;

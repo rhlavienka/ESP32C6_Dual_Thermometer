@@ -2,6 +2,39 @@
 
 Všetky významné zmeny v tomto projekte budú zdokumentované v tomto súbore.
 
+## [1.1.0] - 2025-12-29
+
+### Pridané
+- Explicitné ZCL report príkazy pre okamžité reportovanie zmien teploty
+- Komplexná dokumentácia kódu (Doxygen štýl komentáre)
+- Dokumentácia OneWire protokolu a timing parametrov
+- Dokumentácia DS18B20 driver API a interných funkcií
+- Dokumentácia Zigbee stack inicializácie a reporting logiky
+- Verzie vo všetkých zdrojových súboroch (1.1.0)
+
+### Zmenené
+- Optimalizované ZCL reportovanie - zmeny sa posielajú okamžite cez `esp_zb_zcl_report_attr_cmd_req()`
+- Vyčistený kód v DS18B20 module (odstránené nepoužité ROM príkazy)
+- Vyčistený kód v OneWire module (odstránené nepoužité timing makrá)
+- GPIO20 (D9/MISO) namiesto GPIO5 pre OneWire zbernicu
+- Aktualizované komentáre pre lepšiu údržbu kódu
+
+### Opravené
+- Problém s Zigbee reportovaním - koordinátor teraz dostáva zmeny bez potreby poll
+- Peer synchronizácia - oba senzory sa reportujú súčasne pri zmene jedného
+
+### Technické detaily
+- ESP-IDF verzia: 5.5.1
+- Target: ESP32-C6 (Seeed Studio XIAO)
+- OneWire GPIO: GPIO20 (D9, MISO pin)
+- Zigbee kanál: 11 (Zigbee2MQTT default)
+- Meranie každých: 5 sekúnd
+- Report threshold: 1.0°C
+- Periodic report: 1 minúta (force report)
+- DS18B20 rozlíšenie: 12-bit (0.0625°C)
+
+---
+
 ## [1.0.0] - 2025-11-29
 
 ### Pridané
