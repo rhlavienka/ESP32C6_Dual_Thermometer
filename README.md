@@ -13,6 +13,8 @@ Project for **Seeed Studio XIAO ESP32-C6** to measure temperature using two **DS
 - ✅ **Low power** consumption
 - ✅ **Complete ESP-IDF implementation** (C/C++)
 
+> **Note:** This project was developed with the help of AI agents in VS Code (GitHub Copilot). Specifically, GPT-5.1-code was used for C coding and Claude Sonnet 4.5 for documentation and comments.
+
 ## 🔧 Hardware
 
 ### Required Components:
@@ -236,7 +238,7 @@ In case of problems:
 1. Check documentation in this repository
 2. Verify hardware wiring
 3. Check logs in serial monitor
-4. Verify software versions (ESP-IDF 5.3+)
+4. Verify software versions (ESP-IDF 5.5.1+)
 
 ## 🎯 Future Improvements
 
@@ -250,7 +252,7 @@ In case of problems:
 ---
 
 **Created for:** Seeed Studio XIAO ESP32-C6  
-**Framework:** ESP-IDF v5.3+  
+**Framework:** ESP-IDF v5.5.1  
 **Protocol:** Zigbee 3.0  
-**Version:** 1.0  
+**Version:** 1.1.0  
 **Date:** November 2025
