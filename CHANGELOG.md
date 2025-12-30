@@ -38,7 +38,7 @@ All significant changes in this project will be documented in this file.
 ## [1.0.0] - 2025-11-29
 
 ### Added
-- Complete ESP-IDF project for ESP32-C6 with Zigbee support
+- ESP-IDF project for ESP32-C6 with Zigbee support
 - OneWire driver for communication with DS18B20 sensors
 - DS18B20 driver with support for multiple sensors on one bus
 - Automatic detection of DS18B20 sensors and their ROM addresses
@@ -70,29 +70,6 @@ All significant changes in this project will be documented in this file.
 ### Known Issues
 - None in this version
 
----
-
-## Future Versions (Planned)
-
-### [1.1.0] - TBD
-- [ ] Support for > 2 DS18B20 sensors
-- [ ] Configurable threshold via Zigbee attribute
-- [ ] Web interface for configuration
-- [ ] MQTT publish (parallel with Zigbee)
-
-### [1.2.0] - TBD
-- [ ] OTA (Over-The-Air) update support
-- [ ] Deep sleep mode for battery operation
-- [ ] Sensor calibration
-- [ ] Sensor error detection and reporting
-
-### [2.0.0] - TBD
-- [ ] Support for additional sensor types (DHT22, BME280, ...)
-- [ ] Multi-sensor endpoint aggregation
-- [ ] LCD display support (for standalone mode)
-- [ ] SD card logging
-
----
 
 ## Entry Format
 
