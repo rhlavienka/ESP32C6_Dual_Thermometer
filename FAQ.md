@@ -4,7 +4,10 @@
 
 ### Q: Did you make this with AI help?!
 
-**A:** Of course! I don't know how to code in C ESP-IDF :) I used AI agents in VS Code from GitHub Copilot. Specifically GPT-5.1-code for C coding and Claude Sonnet 4.5 for documentation and comments.
+**A:** Of course! I don't know how to code in C ESP-IDF :) 
+     I used AI agents in VS Code from GitHub Copilot. 
+     Specifically GPT-5.1-code for C coding and Claude Sonnet 4.5 for documentation and comments.
+     But it took a lot of iterations to debug it all!
 
 ### Q: What is the difference between Zigbee Router and Zigbee End Device?
 
