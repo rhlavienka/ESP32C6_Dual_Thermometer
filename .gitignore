@@ -31,3 +31,6 @@ translate_helper.ps1
 # Firmware releases (use GitHub Releases instead)
 firmware/
 release-notes.md
+
+# Internal documentation (not for public)
+RELEASE_WORKFLOW.md
