@@ -1,20 +1,20 @@
-# Detekcia adries DS18B20 senzorov
+# DS18B20 Sensor Address Detection
 
-## Spôsob 1: Použitie hlavného programu
+## Method 1: Using the Main Program
 
-Hlavný program automaticky detekuje DS18B20 senzory pri štarte a vypíše ich ROM adresy do sériového monitora.
+The main program automatically detects DS18B20 sensors at startup and prints their ROM addresses to the serial monitor.
 
-### Postup:
-1. Pripojte DS18B20 senzory na GPIO5 (ONEWIRE_GPIO)
-2. Pripojenie DS18B20:
-   - VDD (červený) -> 3.3V
-   - GND (čierny) -> GND
-   - DATA (žltý) -> GPIO5
-   - Pull-up rezistor 4.7kΩ medzi DATA a VDD
+### Procedure:
+1. Connect DS18B20 sensors to GPIO5 (ONEWIRE_GPIO)
+2. DS18B20 Connection:
+   - VDD (red) -> 3.3V
+   - GND (black) -> GND
+   - DATA (yellow) -> GPIO5
+   - Pull-up resistor 4.7kΩ between DATA and VDD
 
-3. Nahraje a spustite program
-4. Otvorte sériový monitor (115200 baud)
-5. Po štarte uvidíte výpis:
+3. Upload and run the program
+4. Open serial monitor (115200 baud)
+5. After startup you will see output:
 
 ```
 I (xxx) ZIGBEE_THERMO: Scanning for DS18B20 sensors...
@@ -25,16 +25,16 @@ I (xxx) ZIGBEE_THERMO: Sensor 2 assigned
 I (xxx) ZIGBEE_THERMO: Scan complete. Found 2 DS18B20 sensor(s)
 ```
 
-### ROM adresa:
-- Prvý byte (28) = Family Code pre DS18B20
-- Posledných 6 bytov = unikátny sériový number
-- Posledný byte = CRC
+### ROM Address:
+- First byte (28) = Family Code for DS18B20
+- Last 6 bytes = unique serial number
+- Last byte = CRC
 
-## Spôsob 2: Samostatný program na skenovanie
+## Method 2: Standalone Scanning Program
 
-Ak chcete samostatný program iba na skenovanie senzorov, môžete použiť nasledujúci kód:
+If you want a standalone program just for scanning sensors, you can use the following code:
 
-### Vytvorte nový súbor: `main/sensor_scan.c`
+### Create new file: `main/sensor_scan.c`
 
 ```c
 #include <stdio.h>
@@ -107,16 +107,16 @@ void app_main(void)
 }
 ```
 
-### Použitie samostatného skenera:
+### Using the Standalone Scanner:
 
-1. Dočasne premenujte `main.c` na `main.c.bak`
-2. Vytvorte nový `main.c` s vyššie uvedeným kódom
-3. Skompilujte a nahrajte
-4. Otvorte sériový monitor a uvidíte detailný výpis všetkých zariadení
+1. Temporarily rename `main.c` to `main.c.bak`
+2. Create new `main.c` with the above code
+3. Compile and upload
+4. Open serial monitor and you will see detailed output of all devices
 
-## Spôsob 3: Použitie Arduino IDE (jednoduchší pre testovanie)
+## Method 3: Using Arduino IDE (Simpler for Testing)
 
-Ak používate Arduino IDE na rýchle testovanie:
+If you're using Arduino IDE for quick testing:
 
 ```cpp
 #include <OneWire.h>
@@ -157,40 +157,40 @@ void loop() {
 }
 ```
 
-## Zapojenie DS18B20
+## DS18B20 Wiring
 
 ```
 ESP32-C6 (XIAO)          DS18B20 #1          DS18B20 #2
                          (parasite power)
 3.3V ----------------+--- VDD -----------+--- VDD
                      |                   |
-                   [4.7kΩ]             [4.7kΩ] (voliteľné)
+                   [4.7kΩ]             [4.7kΩ] (optional)
                      |                   |
 GPIO5 ---------------+--- DATA ----------+--- DATA
                      
 GND -----------------+--- GND -----------+--- GND
 ```
 
-**Poznámky:**
-- Stačí jeden pull-up rezistor 4.7kΩ na zbernici
-- Oba senzory môžu byť pripojené paralelne na jeden GPIO pin
-- Každý DS18B20 má unikátnu 64-bit ROM adresu
-- Maximálna dĺžka vodičov: ~30m (s dobrou kvalitou káblov)
+**Notes:**
+- Only one 4.7kΩ pull-up resistor is needed on the bus
+- Both sensors can be connected in parallel to one GPIO pin
+- Each DS18B20 has a unique 64-bit ROM address
+- Maximum wire length: ~30m (with good quality cables)
 
-## Riešenie problémov
+## Troubleshooting
 
-### Žiadne zariadenia nenájdené:
-1. Skontrolujte zapojenie (VDD, GND, DATA)
-2. Skontrolujte pull-up rezistor (4.7kΩ)
-3. Skúste kratšie vodiče
-4. Overte funkčnosť senzorov iným zariadením
+### No devices found:
+1. Check wiring (VDD, GND, DATA)
+2. Check pull-up resistor (4.7kΩ)
+3. Try shorter wires
+4. Verify sensor functionality with another device
 
-### Nájdený iba jeden senzor:
-1. Skontrolujte zapojenie druhého senzora
-2. Overte, že nie sú skratované piny
-3. Vymeňte senzory na overenie funkčnosti
+### Only one sensor found:
+1. Check second sensor wiring
+2. Verify pins are not shorted
+3. Swap sensors to verify functionality
 
-### Nesprávna teplota:
-1. Overte ROM adresy
-2. Počkajte 750ms po konverzii (12-bit rozlíšenie)
-3. Skontrolujte napájanie (min. 3.0V, max. 5.5V)
+### Incorrect temperature:
+1. Verify ROM addresses
+2. Wait 750ms after conversion (12-bit resolution)
+3. Check power supply (min. 3.0V, max. 5.5V)

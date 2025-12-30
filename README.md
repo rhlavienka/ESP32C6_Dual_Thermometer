@@ -37,7 +37,7 @@ GND -----------------+--- GND -----------+--- GND
 ```
 
 **Pinout XIAO ESP32-C6:**
-- **GPIO5** = D4 pin na XIAO karte
+- **GPIO5** = D4 pin on XIAO board
 - **3.3V** = 3V3 pin
 - **GND** = GND pin
 
@@ -56,7 +56,7 @@ C6_Thermometer/
 ├── partitions.csv          # Partition table for Zigbee
 ├── sdkconfig.defaults      # ESP-IDF configuration
 ├── INSTALL.md              # Installation guide
-├── DS18B20_ADDRESS_DETECTION.md  # Sensor detection guide
+├── DS18B20_ADDRESS_DETECTION.md  # Sensor address detection guide
 ├── ZIGBEE2MQTT_CONFIG.md   # Z2M configuration
 └── README.md               # This file
 ```
@@ -154,31 +154,31 @@ After successful pairing you will see:
 - **GPIO14** = Antenna selection (LOW = internal, HIGH = external)
 - **GPIO3** = Enable RF switch (must be LOW to use antennas)
 
-## 🔍 Detekcia DS18B20 senzorov
+## 🔍 DS18B20 Sensor Detection
 
-Ak potrebujete zistiť ROM adresy vašich DS18B20 senzorov, pozrite:
+If you need to find out the ROM addresses of your DS18B20 sensors, see:
 **[DS18B20_ADDRESS_DETECTION.md](DS18B20_ADDRESS_DETECTION.md)**
 
-Program automaticky skenuje a zobrazuje nájdené senzory pri štarte.
+The program automatically scans and displays found sensors at startup.
 
-## ⚙️ Konfigurácia
+## ⚙️ Configuration
 
-### Zmena GPIO pre OneWire:
+### Change OneWire GPIO:
 
-V súbore `main/main.c`:
+In `main/main.c` file:
 ```c
-#define ONEWIRE_GPIO GPIO_NUM_5  // Zmeňte na požadovaný pin
+#define ONEWIRE_GPIO GPIO_NUM_5  // Change to desired pin
 ```
 
-### Zmena threshold pre reportovanie:
+### Change reporting threshold:
 
 ```c
-#define TEMP_REPORT_THRESHOLD 1.0f  // Zmena v °C
+#define TEMP_REPORT_THRESHOLD 1.0f  // Change in °C
 ```
 
-### Zmena periódy merania:
+### Change measurement period:
 
-V `temperature_sensor_task()`:
+In `temperature_sensor_task()`:
 ```c
 vTaskDelay(pdMS_TO_TICKS(5000));  // 5000 ms = 5 seconds
 ```
