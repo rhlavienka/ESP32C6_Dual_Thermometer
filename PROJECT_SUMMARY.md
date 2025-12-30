@@ -134,32 +134,15 @@ C6_Thermometer/
 - ✅ deCONZ
 - ✅ MQTT
 - ✅ Node-RED (examples)
-- ✅ InfluxDB (examples)
-- ✅ Grafana (examples)
+
 
 ## 📊 Project Statistics
 
-### Code:
-- **main.c**: ~550 lines (Zigbee + task management)
-- **onewire_bus.c**: ~250 lines (OneWire protocol)
-- **ds18b20.c**: ~100 lines (DS18B20 driver)
-- **Total C code**: ~900 lines
-
-### Documentation:
-- **README.md**: ~350 lines
-- **INSTALL.md**: ~650 lines
-- **DS18B20_ADDRESS_DETECTION.md**: ~200 lines
-- **ZIGBEE2MQTT_CONFIG.md**: ~350 lines
-- **WIRING.md**: ~300 lines
-- **HOME_ASSISTANT_EXAMPLES.md**: ~450 lines
-- **FAQ.md**: ~450 lines
-- **Total documentation**: ~2750 lines
-
-### Overall:
-- **~3650 lines** of code and documentation
-- **14 files** in root
-- **6 files** in main/
-- **8 markdown** documents
+- **14 files** in root directory
+- **6 files** in main/ component
+- **8 markdown** documentation files
+- **Complete C implementation** of OneWire protocol and DS18B20 driver
+- **Comprehensive documentation** covering installation, configuration, and usage
 
 ## 🚀 How to Get Started
 
@@ -228,12 +211,6 @@ The project is designed to be easily extensible:
 - **Analog:** LM35, NTC thermistor
 - **SPI:** MAX31855 (thermocouple)
 
-### Additional Functions:
-- **OTA update** - Over-the-air firmware update
-- **Web server** - Configuration via WiFi
-- **LCD display** - Standalone mode
-- **SD card** - Local logging
-- **Deep sleep** - Battery mode
 
 ## 📝 License
 
@@ -248,14 +225,7 @@ The project is freely usable for personal and commercial purposes.
 4. 💡 Suggest improvements
 5. 🔧 Contribute code (pull requests)
 
-## 🎉 Congratulations!
 
-You have a complete, functional IoT project with:
-- ✅ Professional documentation
-- ✅ Production-ready code
-- ✅ Home Assistant integration
-- ✅ Modular architecture
-- ✅ Extensibility
 
 ---
 
