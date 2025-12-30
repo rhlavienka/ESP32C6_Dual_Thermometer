@@ -1,214 +1,191 @@
 # Wiring Diagram - ESP32-C6 + DS18B20
 
-## Basic Wiring
+## Hardware Used
+
+### Microcontroller
+**Seeed Studio XIAO ESP32-C6**
+- Dual RISC-V processor (32-bit, up to 160MHz)
+- 512KB SRAM, 4MB Flash memory
+- Zigbee 3.0, WiFi 6 (802.11ax), Bluetooth 5.3
+- Ultra-compact form factor (21×17.5mm)
+- Official documentation: [Seeed Studio XIAO ESP32C6 Wiki](https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/)
+
+### Temperature Sensors
+**DS18B20 Digital Temperature Sensor Module**
+- Used module: [DS18B20 with PCB and Terminal Block (AliExpress)](https://www.aliexpress.com/item/4000922310201.html)
+- Pre-wired module with screw terminals for easy connection
+- Built-in pull-up resistor (no external resistor needed)
+- Supports multiple sensors on one bus
+- Waterproof probe with 1-3m cable
+
+## Pinout Reference
+
+**XIAO ESP32-C6 Pin Mapping:**
+
+| Pin Label | GPIO | Function Used | Alternative Functions |
+|-----------|------|---------------|----------------------|
+| D0 | GPIO2 | - | ADC1_CH2, FSPIQ |
+| D1 | GPIO3 | - | ADC1_CH3, FSPIHD |
+| D2 | GPIO4 | - | ADC1_CH4, FSPIWP, MTMS |
+| D3 | GPIO5 | - | ADC2_CH0, FSPICS0, MTDI |
+| D4 | GPIO6 | - | FSPICLK, MTCK |
+| D5 | GPIO7 | - | FSPID, MTDO |
+| D6 | GPIO21 | - | U0RXD |
+| D7 | GPIO20 | - | U0TXD |
+| D8 | GPIO8 | - | - |
+| **D9** | **GPIO20** | **OneWire Bus** | **SPI MISO** |
+| D10 | GPIO3 | - | SPI CS0 |
+
+For complete pinout details, see: [XIAO ESP32C6 Pinout Diagram](https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/#hardware-overview)
+
+## Wiring Connection
+
+### Simple Connection Diagram
 
 ```
-                    SEEED XIAO ESP32-C6
-                    ┌─────────────────┐
-                    │                 │
-                    │  [USB-C]        │
-                    │                 │
-                    │                 │
-        3.3V  ──────┤ 3V3         D0  │
-                    │                 │
-         GND  ──────┤ GND         D1  │
-                    │                 │
-                    │             D2  │
-                    │                 │
-                    │             D3  │
-                    │                 │
-                    │             D5  │
-                    │                 │
-                    │             D6  │
-                    │                 │
-                    │             D7  │
-                    │                 │
-                    │             D8  │
-                    │                 │
-   OneWire  ────────┤ D9 (GPIO20) D10 │
-                    │          MISO   │
-                    │             D6  │
-                    │                 │
-                    │             D7  │
-                    │                 │
-                    │             D8  │
-                    │                 │
-                    │             D9  │
-                    │                 │
-                    │             D10 │
-                    │                 │
-                    └─────────────────┘
+    XIAO ESP32-C6          DS18B20 Module #1          DS18B20 Module #2
+    ┌──────────┐          ┌──────────────┐          ┌──────────────┐
+    │          │          │              │          │              │
+    │   3V3    ├──────────┤ VCC      VCC ├──────────┤ VCC          │
+    │          │          │              │          │              │
+    │   D9     ├──────────┤ DATA    DATA ├──────────┤ DATA         │
+    │ (GPIO20) │          │              │          │              │
+    │          │          │              │          │              │
+    │   GND    ├──────────┤ GND      GND ├──────────┤ GND          │
+    │          │          │              │          │              │
+    └──────────┘          └──────────────┘          └──────────────┘
 ```
 
-## Detailed Wiring with DS18B20
+### Connection Summary
+
+| XIAO ESP32-C6 | DS18B20 Module | Cable Color (typical) |
+|---------------|----------------|----------------------|
+| 3V3 | VCC | Red |
+| D9 (GPIO20) | DATA | Yellow |
+| GND | GND | Black |
+
+**Note:** The DS18B20 module from AliExpress typically includes a built-in 4.7kΩ pull-up resistor on the PCB, so no external resistor is required.
+
+
+## Multiple Sensors Configuration
+
+The OneWire bus supports up to 100+ sensors on a single data line. Each DS18B20 has a unique 64-bit ROM code for identification.
 
 ```
-     3.3V                                              3.3V
-       │                                                 │
-       │                ┌────────────┐                   │
-       ├────────────────┤ 4.7kΩ     ├───────────────────┤
-       │                └────────────┘                   │
-       │                      │                          │
-       │                      │                          │
-       │         ┌────────────┼─────────────┐            │
-       │         │            │             │            │
-       │         │            │             │            │
-    ┌──┴──┐   ┌──┴──┐     ┌──┴──┐       ┌──┴──┐     ┌──┴──┐
-    │ 3V3 │   │ VDD │     │ VDD │       │ VDD │     │ VDD │
-    │     │   │     │     │     │       │     │     │     │
-    │ESP  │   │DS1  │     │DS2  │       │DS.. │     │DS.. │
-    │32C6 │   │8B20 │     │8B20 │       │8B20 │     │8B20 │
-    │     │   │ #1  │     │ #2  │       │ #n  │     │ #m  │
-    │ D4  ├───┤DATA │─────┤DATA │───────┤DATA │─────┤DATA │
-    │     │   │     │     │     │       │     │     │     │
-    │ GND ├───┤ GND │─────┤ GND │───────┤ GND │─────┤ GND │
-    └─────┘   └─────┘     └─────┘       └─────┘     └─────┘
-       │         │            │             │           │
-       └─────────┴────────────┴─────────────┴───────────┘
-                              │
-                             GND
+                              3.3V
+                                │
+                                │
+         ┌──────────────────────┼──────────────────────┐
+         │                      │                      │
+         │                      │                      │
+    ┌────┴────┐            ┌────┴────┐            ┌────┴────┐
+    │ DS18B20 │            │ DS18B20 │            │ DS18B20 │
+    │  VCC    │            │  VCC    │            │  VCC    │
+    │         │            │         │            │         │
+    │  DATA   ├────────────┤  DATA   ├────────────┤  DATA   ├──── GPIO20
+    │         │            │         │            │         │
+    │  GND    │            │  GND    │            │  GND    │
+    └────┬────┘            └────┬────┘            └────┬────┘
+         │                      │                      │
+         └──────────────────────┴──────────────────────┘
+                                │
+                               GND
 ```
 
-## DS18B20 Pinout (TO-92 Package)
+## RF Switch Configuration (Important for Zigbee)
 
-```
-      ┌─────┐
-      │  ─  │  (front view, flat side facing you)
-      └──┴──┘
-         │
-    ┌────┼────┐
-    │    │    │
-   GND  DATA VDD
-   (1)  (2)  (3)
-```
+The XIAO ESP32-C6 includes an RF switch that must be properly configured for Zigbee operation:
 
-**DS18B20 Pins:**
-1. **GND** - Ground (black wire)
-2. **DATA** - OneWire data pin (yellow wire)
-3. **VDD** - Power supply 3.0-5.5V (red wire)
+- **GPIO3**: Must be set LOW to enable RF switch
+- **GPIO14**: Antenna selection (HIGH = external U.FL, LOW = internal ceramic)
+- **GPIO15**: RF enable signal
 
-## Wire Colors (Standard for DS18B20 Waterproof Cables)
+The firmware automatically configures these pins. For external antenna usage, see the [official wiki guide](https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/#usage-of-rf-switch).
 
-- **Red** = VDD (3.3V)
-- **Black** = GND
-- **Yellow** = DATA (OneWire)
+## Power Supply Considerations
 
-## Alternative Wiring - Parasite Power Mode
+- **USB-C Power**: 5V input, regulated to 3.3V by onboard RT9080 LDO (600mA max)
+- **Battery Power**: Supports 3.7V Li-Po battery (JST 1.25mm connector, built-in charging)
+- **DS18B20 Current**: ~1mA active, ~1µA idle per sensor
+- **Total Current**: Typically <100mA with Zigbee active + 2 sensors
 
-In this mode, VDD and GND are connected together (saves one wire):
 
-```
-    ┌─────┐
-    │ESP  │          ┌──────┐         ┌──────┐
-    │32C6 │          │DS1   │         │DS2   │
-    │     │          │8B20  │         │8B20  │
-    │     │   4.7kΩ  │      │         │      │
-    │ 3V3 ├────┬─────┤VDD   │   ┌─────┤VDD   │
-    │     │    │     │      │   │     │      │
-    │ D4  ├────┼─────┤DATA  ├───┼─────┤DATA  │
-    │     │    │     │      │   │     │      │
-    │ GND ├────┴─────┤GND   ├───┴─────┤GND   │
-    └─────┘          └──────┘         └──────┘
-```
+## Technical Specifications
 
-**Note:** In parasite power mode, the pull-up resistor is still required!
-
-## Antenna Selection (Optional)
-
-If you want to use an external antenna:
-
-```
-    ┌─────────────────┐
-    │  ESP32-C6       │
-    │                 │
-    │  GPIO3  ────────┼──── LOW (enable RF switch)
-    │                 │
-    │  GPIO14 ────────┼──── HIGH (select external antenna)
-    │                 │          LOW  (select internal antenna - default)
-    │                 │
-    │  [U.FL connector]│──── External antenna
-    └─────────────────┘
-```
-
-## Complete Wiring for Testing
-
-### Required Materials:
-- 1× Seeed Studio XIAO ESP32-C6
-- 2× DS18B20 (TO-92 or cable version)
-- 1× 4.7kΩ resistor
-- 1× Breadboard
-- Wires (Male-Male)
-- USB-C cable
-
-### Wiring Procedure:
-
-1. **Place XIAO ESP32-C6 on breadboard**
-
-2. **Connect power:**
-   ```
-   ESP32-C6 pin 3V3 → + rail of breadboard (red)
-   ESP32-C6 pin GND → - rail of breadboard (blue/black)
-   ```
-
-3. **Add pull-up resistor:**
-   ```
-   4.7kΩ between + rail and GPIO20 (D9/MISO)
-   ```
-
-4. **Connect first DS18B20:**
-   ```
-   DS18B20 #1 VDD  → + rail
-   DS18B20 #1 DATA → GPIO20 (D9/MISO)
-   DS18B20 #1 GND  → - rail
-   ```
-
-5. **Connect second DS18B20:**
-   ```
-   DS18B20 #2 VDD  → + rail
-   DS18B20 #2 DATA → GPIO20 (D9/MISO) (parallel with DS1)
-   DS18B20 #2 GND  → - rail
-   ```
-
-6. **Connect USB-C cable to PC**
-
-## Electrical Parameters
+### DS18B20 Sensor
 
 | Parameter | Min | Typ | Max | Unit |
-|-----------|-----|-----|-----|----------|  
-| Supply Voltage (VDD) | 3.0 | 3.3 | 5.5 | V |
-| Current Consumption (active) | - | 1 | 1.5 | mA |
-| Current Consumption (idle) | - | 1 | - | µA |
-| Operating Temperature | -55 | - | +125 | °C |
-| Measurement Accuracy | - | ±0.5 | - | °C |
-| Cable Length (OneWire) | - | - | 30 | m |
+|-----------|-----|-----|-----|------|
+| Supply Voltage | 3.0 | 3.3 | 5.5 | V |
+| Current (active) | - | 1.0 | 1.5 | mA |
+| Current (idle) | - | 1 | - | µA |
+| Temperature Range | -55 | - | +125 | °C |
+| Accuracy (0-85°C) | - | ±0.5 | - | °C |
+| Resolution | 9 | 12 | 12 | bit |
+| Conversion Time (12-bit) | - | 750 | - | ms |
+
+### OneWire Bus
+
+| Parameter | Min | Typ | Max | Unit |
+|-----------|-----|-----|-----|------|
+| Cable Length | - | - | 30 | m |
+| Devices per Bus | - | - | 100+ | - |
 | Pull-up Resistor | 2.2 | 4.7 | 10 | kΩ |
+| Bus Capacitance | - | - | 5000 | pF |
 
-## Recommendations for Long Cables
+## Troubleshooting
 
-For cable lengths over 3 meters:
+### Sensors Not Detected
 
-1. **Use quality shielded cable** (e.g. CAT5e)
-2. **Reduce pull-up resistor** to 2.2kΩ
-3. **Add 100nF capacitor** between VDD and GND at each sensor
-4. **Reduce OneWire speed** if errors occur
+1. **Verify power supply**
+   - Measure 3.3V between VCC and GND pins
+   - Check USB-C connection
 
-## Problems and Solutions
+2. **Check module configuration**
+   - Verify the DS18B20 module has built-in pull-up resistor
+   - If using bare sensors, add external 4.7kΩ resistor
 
-### Sensors not found:
-- ✓ Check all three wires (VDD, DATA, GND)
-- ✓ Verify pull-up resistor (4.7kΩ)
-- ✓ Use multimeter to verify voltage on VDD (3.3V)
+3. **Inspect wiring**
+   - Confirm GPIO20 (D9/MISO) is used for DATA
+   - Verify all GND connections are common
 
-### Unstable measurements:
-- ✓ Add 100nF capacitor between VDD and GND
-- ✓ Shorten cables
-- ✓ Use shielded cable
+4. **Use detection script**
+   - See [DS18B20_ADDRESS_DETECTION.md](DS18B20_ADDRESS_DETECTION.md) for diagnostic tools
 
-### Only one sensor found:
-- ✓ Check second sensor wiring
-- ✓ Swap sensors to test functionality
-- ✓ Verify DATA pins are connected in parallel
+### Unstable Readings
+
+1. **Cable quality**
+   - Use shielded cable for lengths >3m
+   - Avoid running sensor cables parallel to power lines
+
+2. **Add filtering capacitor**
+   - Place 100nF ceramic capacitor between VCC and GND at each sensor
+   - Helps with noise immunity
+
+3. **Adjust pull-up resistor**
+   - For long cables: reduce to 2.2kΩ
+   - For many sensors: use 2.2kΩ
+
+### RF/Zigbee Issues
+
+If Zigbee connectivity is poor:
+
+1. **Check antenna configuration**
+   - Internal ceramic antenna is default (no configuration needed)
+   - For external antenna, see [XIAO ESP32C6 RF Switch Guide](https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/#usage-of-rf-switch)
+
+2. **Verify RF switch pins**
+   - GPIO3 should be LOW
+   - GPIO14 controls antenna selection
+   - Firmware handles this automatically
+
+## Additional Resources
+
+- **XIAO ESP32-C6 Official Wiki**: https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/
+- **DS18B20 Module (AliExpress)**: https://www.aliexpress.com/item/4000922310201.html
+- **ESP-IDF OneWire Documentation**: [ESP-IDF GitHub](https://github.com/espressif/esp-idf)
+- **Project FAQ**: [FAQ.md](FAQ.md)
 
 ---
 
-**Note:** This wiring is designed for Seeed Studio XIAO ESP32-C6. When using a different ESP32 module, verify GPIO mapping!
+**Note:** This project uses the specific DS18B20 module with terminal blocks for simplified wiring. If using bare TO-92 sensors or different waterproof probes, verify pinout and add external 4.7kΩ pull-up resistor if not included.
