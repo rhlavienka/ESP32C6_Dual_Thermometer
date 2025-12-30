@@ -25,3 +25,8 @@ Thumbs.db
 
 # Project specific
 main/main.c.bak
+prompt.txt
+translate_helper.ps1
+HOME_ASSISTANT_EXAMPLES.md
+ZIGBEE2MQTT_CONFIG.md
+esp32c6_thermometer.js
