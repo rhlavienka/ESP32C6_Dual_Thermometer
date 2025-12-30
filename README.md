@@ -12,10 +12,10 @@ Project for **Seeed Studio XIAO ESP32-C6** to measure temperature using two **DS
 - ✅ **Smart reporting** - sends data only when temperature changes by ≥1°C
 - ✅ **Home Assistant integration** via Zigbee2MQTT
 - ✅ **Two independent endpoints** in Zigbee (each sensor separately)
-- ✅ **Low power** consumption
 - ✅ **Complete ESP-IDF implementation** (C/C++)
 
-> **Note:** This project was developed with the help of AI agents in VS Code (GitHub Copilot). Specifically, GPT-5.1-code was used for C coding and Claude Sonnet 4.5 for documentation and comments.
+> **Note:** This project was developed with the help of AI agents in VS Code (GitHub Copilot). 
+Specifically, GPT-5.1-code was used for C coding and Claude Sonnet 4.5 for documentation and comments.
 
 ## 🔧 Hardware
 
