@@ -1,10 +1,13 @@
 /**
- * Zigbee2MQTT External Converter pre ESP32-C6 Dual Thermometer
+ * Zigbee2MQTT External Converter for ESP32-C6 Dual Thermometer
  * 
- * Umiestnenie: Do adresára s Zigbee2MQTT konfiguráciou
- * Konfigurácia: Pridať do configuration.yaml:
+ * Location: Place in Zigbee2MQTT configuration directory under 'external_converters' folder
+ * Configuration: Add to configuration.yaml:
  *   external_converters:
  *     - esp32c6_thermometer.js
+ * 
+ * Device: ESP32-C6 with dual DS18B20 temperature sensors
+ * Endpoints: 11 (sensor1), 12 (sensor2)
  */
 
 const fz = require('zigbee-herdsman-converters/converters/fromZigbee');
