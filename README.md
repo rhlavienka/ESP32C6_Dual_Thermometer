@@ -20,9 +20,9 @@ Project for **Seeed Studio XIAO ESP32-C6** to measure temperature using two **DS
 ## 🔧 Hardware
 
 ### Required Components:
-- 1× **Seeed Studio XIAO ESP32-C6**
-- 2× **DS18B20 digital temperature sensor**
-- 1× **4.7kΩ resistor** (pull-up for OneWire)
+- 1× **Seeed Studio XIAO ESP32-C6** - [Amazon](https://a.co/d/5NcGTl1)
+- 2× **DS18B20 digital temperature sensor** - [AliExpress module with resistor and capacitor](https://www.aliexpress.com/item/4000922310201.html)
+- 1× **4.7kΩ resistor** (pull-up for OneWire) - *included in the DS18B20 module above*
 - Wires and breadboard
 - USB-C cable (with data wires)
 
