@@ -61,7 +61,7 @@ All significant changes in this project will be documented in this file.
 ### Technical Details
 - ESP-IDF version: 5.3+
 - Target: ESP32-C6 (Seeed Studio XIAO)
-- OneWire GPIO: GPIO5 (D4)
+- OneWire GPIO: GPIO20 (D9/MISO) - updated in v1.1.0
 - Zigbee channel: Configurable via PRIMARY_CHANNEL_MASK
 - Measurement interval: 5 seconds
 - Report threshold: 1.0°C

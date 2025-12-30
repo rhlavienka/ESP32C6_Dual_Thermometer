@@ -58,7 +58,8 @@
 ### Q: Which GPIO can I use for OneWire?
 
 **A:** On XIAO ESP32-C6 you can use almost any GPIO:
-- **Recommended:** GPIO4, GPIO5, GPIO6, GPIO7
+- **Recommended:** GPIO4, GPIO6, GPIO7, GPIO20
+- **Currently used:** GPIO20 (D9/MISO)
 - **Avoid:** GPIO0, GPIO8, GPIO9 (used for boot/flash)
 
 ## Software

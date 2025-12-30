@@ -5,11 +5,11 @@
 The main program automatically detects DS18B20 sensors at startup and prints their ROM addresses to the serial monitor.
 
 ### Procedure:
-1. Connect DS18B20 sensors to GPIO5 (ONEWIRE_GPIO)
-2. DS18B20 Connection:
+1. Connect DS18B20 sensors to GPIO20 (ONEWIRE_GPIO)
+2. DS18B20 connection:
    - VDD (red) -> 3.3V
    - GND (black) -> GND
-   - DATA (yellow) -> GPIO5
+   - DATA (yellow) -> GPIO20 (D9/MISO)
    - Pull-up resistor 4.7kΩ between DATA and VDD
 
 3. Upload and run the program
@@ -121,7 +121,7 @@ If you're using Arduino IDE for quick testing:
 ```cpp
 #include <OneWire.h>
 
-#define ONE_WIRE_BUS 5  // GPIO5
+#define ONE_WIRE_BUS 20  // GPIO20 (D9/MISO)
 
 OneWire oneWire(ONE_WIRE_BUS);
 
@@ -166,8 +166,8 @@ ESP32-C6 (XIAO)          DS18B20 #1          DS18B20 #2
                      |                   |
                    [4.7kΩ]             [4.7kΩ] (optional)
                      |                   |
-GPIO5 ---------------+--- DATA ----------+--- DATA
-                     
+GPIO20 --------------+--- DATA ----------+--- DATA
+(D9/MISO)            
 GND -----------------+--- GND -----------+--- GND
 ```
 

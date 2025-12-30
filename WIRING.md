@@ -17,8 +17,16 @@
                     │                 │
                     │             D3  │
                     │                 │
-   OneWire  ────────┤ D4 (GPIO5)  D5  │
+                    │             D5  │
                     │                 │
+                    │             D6  │
+                    │                 │
+                    │             D7  │
+                    │                 │
+                    │             D8  │
+                    │                 │
+   OneWire  ────────┤ D9 (GPIO20) D10 │
+                    │          MISO   │
                     │             D6  │
                     │                 │
                     │             D7  │
@@ -144,20 +152,20 @@ If you want to use an external antenna:
 
 3. **Add pull-up resistor:**
    ```
-   4.7kΩ between + rail and GPIO5 (D4)
+   4.7kΩ between + rail and GPIO20 (D9/MISO)
    ```
 
 4. **Connect first DS18B20:**
    ```
    DS18B20 #1 VDD  → + rail
-   DS18B20 #1 DATA → GPIO5 (D4)
+   DS18B20 #1 DATA → GPIO20 (D9/MISO)
    DS18B20 #1 GND  → - rail
    ```
 
 5. **Connect second DS18B20:**
    ```
    DS18B20 #2 VDD  → + rail
-   DS18B20 #2 DATA → GPIO5 (D4) (parallel with DS1)
+   DS18B20 #2 DATA → GPIO20 (D9/MISO) (parallel with DS1)
    DS18B20 #2 GND  → - rail
    ```
 

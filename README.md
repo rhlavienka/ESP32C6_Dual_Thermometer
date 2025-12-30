@@ -4,7 +4,7 @@ Project for **Seeed Studio XIAO ESP32-C6** to measure temperature using two **DS
 
 ## 📋 Features
 
-- ✅ **Dual DS18B20 sensors** on a single OneWire bus (GPIO5)
+- ✅ **Dual DS18B20 sensors** on a single OneWire bus (GPIO20)
 - ✅ **Automatic detection** of DS18B20 sensors and their ROM addresses
 - ✅ **Zigbee Router** functionality (strengthens Zigbee network)
 - ✅ **Smart reporting** - sends data only when temperature changes by ≥1°C
@@ -31,13 +31,13 @@ ESP32-C6 (XIAO)          DS18B20 #1          DS18B20 #2
                      |                   |
                    [4.7kΩ]               |
                      |                   |
-GPIO5 ---------------+--- DATA ----------+--- DATA
+GPIO20 --------------+--- DATA ----------+--- DATA
                      
 GND -----------------+--- GND -----------+--- GND
 ```
 
 **Pinout XIAO ESP32-C6:**
-- **GPIO5** = D4 pin on XIAO board
+- **GPIO20** = D9 pin (MISO) on XIAO board
 - **3.3V** = 3V3 pin
 - **GND** = GND pin
 
@@ -103,7 +103,7 @@ After flashing, open serial monitor (115200 baud) and you will see:
 
 ```
 I (xxx) ZIGBEE_THERMO: ESP32-C6 Zigbee Thermometer Starting...
-I (xxx) ZIGBEE_THERMO: OneWire bus initialized on GPIO5
+I (xxx) ZIGBEE_THERMO: OneWire bus initialized on GPIO20
 I (xxx) ZIGBEE_THERMO: Scanning for DS18B20 sensors...
 I (xxx) ZIGBEE_THERMO: Found device 1 - ROM: 28 AA BB CC DD EE FF 00
 I (xxx) ZIGBEE_THERMO: Sensor 1 assigned
@@ -150,7 +150,7 @@ After successful pairing you will see:
 - **Resolution:** 0.0625°C (12-bit ADC DS18B20)
 
 ### GPIO Pins:
-- **GPIO5** = OneWire bus for DS18B20
+- **GPIO20** = OneWire bus for DS18B20 (D9/MISO on XIAO)
 - **GPIO14** = Antenna selection (LOW = internal, HIGH = external)
 - **GPIO3** = Enable RF switch (must be LOW to use antennas)
 

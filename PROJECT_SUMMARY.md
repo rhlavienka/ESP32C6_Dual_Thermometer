@@ -114,7 +114,7 @@ C6_Thermometer/
 ### Hardware support:
 - ✅ Seeed Studio XIAO ESP32-C6
 - ✅ DS18B20 (all variants)
-- ✅ GPIO5 OneWire (configurable)
+- ✅ GPIO20 (D9/MISO) OneWire (configurable)
 - ✅ 4.7kΩ pull-up
 - ✅ Up to 127 sensors on one bus
 
