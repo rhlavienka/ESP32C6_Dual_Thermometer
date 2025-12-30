@@ -4,7 +4,17 @@ This guide explains how to flash pre-compiled firmware to your ESP32-C6 without 
 
 ## Download Firmware
 
-Download the latest firmware from [GitHub Releases](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/releases).
+Download the latest firmware files from the repository:
+
+**Direct download from GitHub:**
+- [Download all firmware files (ZIP)](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/archive/refs/heads/main.zip) - Extract and use files from `firmware/` directory
+
+**Or download individual files:**
+- [bootloader.bin](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/bootloader.bin)
+- [partition-table.bin](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/partition-table.bin)
+- [esp32c6_zigbee_thermometer.bin](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/esp32c6_zigbee_thermometer.bin)
+- [flasher_args.json](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/flasher_args.json)
+- [checksums.txt](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/checksums.txt) - SHA256 checksums for verification
 
 You will need these files:
 - `bootloader.bin` - Bootloader

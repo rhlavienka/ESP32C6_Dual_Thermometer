@@ -2,7 +2,18 @@
 
 Pre-compiled firmware for Seeed Studio XIAO ESP32-C6 with dual DS18B20 temperature sensors.
 
-## 📦 Included Files
+## � Download
+
+Download firmware files directly:
+- [bootloader.bin](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/bootloader.bin)
+- [partition-table.bin](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/partition-table.bin)
+- [esp32c6_zigbee_thermometer.bin](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/esp32c6_zigbee_thermometer.bin)
+- [flasher_args.json](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/flasher_args.json)
+- [checksums.txt](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/raw/main/firmware/checksums.txt)
+
+Or [download entire repository as ZIP](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/archive/refs/heads/main.zip) and extract `firmware/` folder.
+
+## �📦 Included Files
 
 - `bootloader.bin` - Bootloader (flash at 0x0)
 - `partition-table.bin` - Partition table (flash at 0x8000)
