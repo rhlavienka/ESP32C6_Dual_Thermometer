@@ -2,6 +2,10 @@
 
 ## General Questions
 
+### Q: Did you make this with AI help?!
+
+**A:** Of course! I don't know how to code in C ESP-IDF :) I used AI agents in VS Code from GitHub Copilot. Specifically GPT-5.1-code for C coding and Claude Sonnet 4.5 for documentation and comments.
+
 ### Q: What is the difference between Zigbee Router and Zigbee End Device?
 
 **A:** 
@@ -107,7 +111,7 @@ We recommend sticking with ESP-IDF for simplicity.
 1. Is "Permit Join" enabled in Z2M?
 2. Is Z2M using the correct Zigbee channel?
 3. Are Zigbee coordinator and ESP32-C6 on the same channel?
-4. Is the Zigbee coordinator close enough? (max ~10m for initial pairing)
+4. Is the Zigbee coordinator or router device close enough? (max ~10m for initial pairing)
 
 ### Q: How do I reset Zigbee pairing?
 
@@ -314,11 +318,6 @@ We recommend sticking with ESP-IDF for simplicity.
 2. Regularly update ESP-IDF to latest version
 3. Don't use default keys in production
 
-### Q: How often should I update firmware?
-
-**A:** 
-- **ESP-IDF:** On critical security fixes
-- **Your code:** As needed (bugfixes, new features)
 
 ### Q: How do I backup ESP32-C6 configuration?
 
