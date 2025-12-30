@@ -27,6 +27,7 @@ Thumbs.db
 main/main.c.bak
 prompt.txt
 translate_helper.ps1
-HOME_ASSISTANT_EXAMPLES.md
-ZIGBEE2MQTT_CONFIG.md
-esp32c6_thermometer.js
+
+# Firmware releases (use GitHub Releases instead)
+firmware/
+release-notes.md
