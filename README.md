@@ -2,6 +2,8 @@
 
 Project for **Seeed Studio XIAO ESP32-C6** to measure temperature using two **DS18B20** sensors and transmit data via **Zigbee** to **Home Assistant** using **Zigbee2MQTT**.
 
+![Project Photo](images/picture1.png)
+
 ## 📋 Features
 
 - ✅ **Dual DS18B20 sensors** on a single OneWire bus (GPIO20)
@@ -240,14 +242,6 @@ In case of problems:
 3. Check logs in serial monitor
 4. Verify software versions (ESP-IDF 5.5.1+)
 
-## 🎯 Future Improvements
-
-- [ ] Support for more than 2 sensors
-- [ ] Configurable threshold via Zigbee
-- [ ] OTA (Over-The-Air) update
-- [ ] Deep sleep mode (for battery operation)
-- [ ] Sensor calibration
-- [ ] Sensor error detection and recovery
 
 ---
 
