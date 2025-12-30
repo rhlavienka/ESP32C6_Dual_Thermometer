@@ -32,18 +32,68 @@ mosquitto_pub -h localhost -t 'zigbee2mqtt/bridge/request/permit_join' -m '{"val
 
 ### 1.2 Reset and Pair ESP32-C6
 
-1. Connect ESP32-C6 to power via USB-C
-2. Open serial monitor (115200 baud) to observe pairing process
-3. Press **RESET button** on ESP32-C6 (or power cycle)
-4. Device will automatically attempt to join the Zigbee network
+The ESP32-C6 supports two pairing methods:
 
-**Expected serial output:**
+#### Method 1: Manual Pairing (BOOT Button - 5 Second Hold)
+
+**Best for:** First-time pairing or re-pairing to a different coordinator
+
+1. Connect ESP32-C6 to power via USB-C
+2. Open serial monitor (115200 baud) - **recommended** to monitor pairing status
+3. **Wait for device to fully boot** (about 3-5 seconds)
+4. **Press and HOLD the BOOT button for 5 seconds**
+   - ESP32 will log: `BOOT button pressed - hold for 5 seconds to start Zigbee pairing`
+   - After 5 seconds: `BOOT button long press detected - requesting manual pairing now`
+5. If device was previously paired, it will:
+   - Leave the old network
+   - Perform factory reset
+   - **Automatically reboot**
+6. After reboot, pairing process starts automatically
+7. Device will join the Zigbee network (ensure **Permit Join** is enabled in Z2M)
+
+**Expected serial output after 5-second button press:**
 ```
-[Zigbee] Starting network steering
+[Zigbee] Manual pairing button request received
+[Zigbee] Device still remembers previous network - leaving before pairing again
+[Zigbee] Zigbee factory reset requested
+[Zigbee] Rebooting...
+... (device reboots) ...
+[Zigbee] Starting network steering (manual-button)
 [Zigbee] Network steering started
 [Zigbee] Joined network successfully
 [Zigbee] Device announced
 ```
+
+#### Method 2: Factory Reset During Startup (BOOT Button - Press Before Power)
+
+**Best for:** Complete reset without 5-second wait
+
+1. **Disconnect** ESP32-C6 from power
+2. **Press and HOLD the BOOT button**
+3. While holding BOOT, **connect USB-C cable** (power on)
+4. Keep holding BOOT for 1-2 seconds after power-on
+5. Release BOOT button
+6. Device will erase Zigbee NVS and start fresh
+7. Pairing will start automatically (ensure **Permit Join** is enabled in Z2M)
+
+**Expected serial output:**
+```
+[Zigbee] BOOT button pressed during startup - erasing Zigbee NVS!
+[Zigbee] Erasing zb_storage partition...
+[Zigbee] Zigbee NVS cleared - pairing state reset
+[Zigbee] Starting network steering (auto-rejoin)
+[Zigbee] Joined network successfully
+```
+
+#### Method 3: Automatic Re-join (Default Behavior)
+
+**Best for:** Normal operation after initial pairing
+
+1. Simply power on or reset the ESP32-C6
+2. Device will automatically attempt to rejoin its previous network
+3. No button press needed
+
+**Note:** This only works if device was previously paired and network credentials are stored.
 
 ### 1.3 Verify Device in Zigbee2MQTT
 
@@ -264,56 +314,6 @@ entities:
     name: Kitchen
     icon: mdi:thermometer
 ```
-
-**Or use gauge cards:**
-```yaml
-type: horizontal-stack
-cards:
-  - type: gauge
-    entity: sensor.esp32c6_thermometer_temperature_sensor1
-    name: Sensor 1
-    min: 0
-    max: 40
-    severity:
-      green: 18
-      yellow: 24
-      red: 28
-  - type: gauge
-    entity: sensor.esp32c6_thermometer_temperature_sensor2
-    name: Sensor 2
-    min: 0
-    max: 40
-    severity:
-      green: 18
-      yellow: 24
-      red: 28
-```
-
-### 4.4 Example Automations
-
-**Alert on temperature change:**
-```yaml
-automation:
-  - alias: "Temperature Alert"
-    trigger:
-      - platform: state
-        entity_id: 
-          - sensor.esp32c6_thermometer_temperature_sensor1
-          - sensor.esp32c6_thermometer_temperature_sensor2
-    condition:
-      - condition: template
-        value_template: >
-          {{ (trigger.to_state.state | float - trigger.from_state.state | float) | abs >= 2.0 }}
-    action:
-      - service: notify.mobile_app
-        data:
-          title: "Temperature Change"
-          message: >
-            {{ trigger.to_state.attributes.friendly_name }} changed from 
-            {{ trigger.from_state.state }}°C to {{ trigger.to_state.state }}°C
-```
-
----
 
 ## Troubleshooting
 
