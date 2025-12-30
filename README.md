@@ -71,7 +71,7 @@ C6_Thermometer/
 
 **Easiest method** - just flash and use:
 
-1. Download the latest firmware from [GitHub Releases](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/releases)
+1. Download the latest firmware from [GitHub Releases](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/releases/latest)
 2. Follow **[FLASHING.md](FLASHING.md)** for detailed flashing instructions
 3. Wire DS18B20 sensors according to the schema above
 4. Flash using esptool or ESP Flash Download Tool
