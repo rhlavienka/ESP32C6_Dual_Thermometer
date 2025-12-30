@@ -33,6 +33,9 @@ All significant changes in this project will be documented in this file.
 - Periodic report: 1 minute (force report)
 - DS18B20 resolution: 12-bit (0.0625°C)
 
+### Known Issues
+- Temperature values may not appear immediately in Zigbee2MQTT after Z2M restart. Values will be updated on first temperature change or within 1 minute (periodic report interval).
+
 ---
 
 ## [1.0.0] - 2025-11-29
@@ -67,8 +70,6 @@ All significant changes in this project will be documented in this file.
 - Report threshold: 1.0°C
 - DS18B20 resolution: 12-bit (0.0625°C)
 
-### Known Issues
-- None in this version
 
 
 ## Entry Format
