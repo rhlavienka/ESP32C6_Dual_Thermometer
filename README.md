@@ -67,33 +67,47 @@ C6_Thermometer/
 
 ## 🚀 Quick Start
 
-### 1. Development Environment Setup
+### Option A: Flash Pre-compiled Firmware (No Development Environment Needed)
+
+**Easiest method** - just flash and use:
+
+1. Download the latest firmware from [GitHub Releases](https://github.com/rhlavienka/ESP32C6_Dual_Thermometer/releases)
+2. Follow **[FLASHING.md](FLASHING.md)** for detailed flashing instructions
+3. Wire DS18B20 sensors according to the schema above
+4. Flash using esptool or ESP Flash Download Tool
+5. Configure Zigbee2MQTT (see [ZIGBEE2MQTT_CONFIG.md](ZIGBEE2MQTT_CONFIG.md))
+
+### Option B: Build from Source (For Developers)
+
+**Full development setup:**
+
+#### 1. Development Environment Setup
 
 Follow **[INSTALL.md](INSTALL.md)** for detailed installation instructions:
-- ESP-IDF (v5.3 or newer)
+- ESP-IDF (v5.5.1)
 - Visual Studio Code
 - ESP-IDF VS Code extension
 
-### 2. Clone/Open Project
+#### 2. Clone/Open Project
 
 ```powershell
 # Open VS Code
 # File → Open Folder → select C6_Thermometer folder
 ```
 
-### 3. Set Target
+#### 3. Set Target
 
 ```powershell
 # In VS Code: Ctrl+Shift+P
 ESP-IDF: Set Espressif Device Target → esp32c6
 ```
 
-### 4. Connect Hardware
+#### 4. Connect Hardware
 
 1. Wire DS18B20 sensors according to the schema above
 2. Connect XIAO ESP32-C6 via USB-C to PC
 
-### 5. Build and Flash
+#### 5. Build and Flash
 
 ```powershell
 # In VS Code: Ctrl+E D
@@ -101,7 +115,7 @@ ESP-IDF: Set Espressif Device Target → esp32c6
 idf.py build flash monitor
 ```
 
-### 6. Monitor Output
+#### 6. Monitor Output
 
 After flashing, open serial monitor (115200 baud) and you will see:
 
@@ -211,7 +225,8 @@ Detailed troubleshooting can be found in the documentation.
 ## 📚 Documentation
 
 ### Basic Documentation:
-- **[INSTALL.md](INSTALL.md)** - Detailed installation guide for Windows
+- **[FLASHING.md](FLASHING.md)** - Flash pre-compiled firmware (no ESP-IDF needed)
+- **[INSTALL.md](INSTALL.md)** - Detailed installation guide for development (ESP-IDF)
 - **[WIRING.md](WIRING.md)** - Wiring schema and pinout
 - **[DS18B20_ADDRESS_DETECTION.md](DS18B20_ADDRESS_DETECTION.md)** - Sensor detection
 - **[ZIGBEE2MQTT_CONFIG.md](ZIGBEE2MQTT_CONFIG.md)** - Z2M configuration
