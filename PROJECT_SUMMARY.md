@@ -12,11 +12,11 @@ C6_Thermometer/
 │
 ├── main/
 │   ├── CMakeLists.txt                # Main component CMake
-│   ├── main.c                        # Hlavný program (Zigbee + senzory)
+│   ├── main.c                        # Main program (Zigbee + sensors)
 │   ├── onewire_bus.h                 # OneWire driver header
-│   ├── onewire_bus.c                 # OneWire driver implementácia
+│   ├── onewire_bus.c                 # OneWire driver implementation
 │   ├── ds18b20.h                     # DS18B20 driver header
-│   └── ds18b20.c                     # DS18B20 driver implementácia
+│   └── ds18b20.c                     # DS18B20 driver implementation
 │
 └── Documentation:
     ├── README.md                     # Project overview
@@ -43,26 +43,26 @@ C6_Thermometer/
 ### 2. **Drivers and Libraries**
 - **onewire_bus.c/h** - Low-level OneWire protocol
   - Reset, read, write bit/byte
-  - Device search algoritmus
+  - Device search algorithm
   - GPIO configuration (open-drain)
   
-- **ds18b20.c/h** - DS18B20 špecifický driver
+- **ds18b20.c/h** - DS18B20 specific driver
   - Temperature conversion
-  - Scratchpad čítanie
+  - Scratchpad reading
   - ROM addressing
-  - Multi-device podpora
+  - Multi-device support
 
-### 3. **Zigbee implementácia**
+### 3. **Zigbee Implementation**
 - Zigbee 3.0 Router
-- Home Automation profil
+- Home Automation profile
 - Temperature Measurement cluster
-- Dva endpointy (11, 12)
+- Two endpoints (11, 12)
 - Automatic network steering
 - Binding and reporting configuration
 
 ### 4. **Documentation**
 
-#### INSTALL.md (5000+ words)
+#### INSTALL.md
 - Step-by-step guide for Windows
 - ESP-IDF installation
 - VS Code configuration
@@ -260,7 +260,7 @@ You have a complete, functional IoT project with:
 ---
 
 **Created:** November 2025  
-**Version:** 1.0.0  
-**Framework:** ESP-IDF v5.3+  
+**Version:** 1.1.0  
+**Framework:** ESP-IDF v5.5.1  
 **Target:** ESP32-C6 (Seeed Studio XIAO)  
 **Protocol:** Zigbee 3.0
