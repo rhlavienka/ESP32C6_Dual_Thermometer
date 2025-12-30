@@ -1,14 +1,14 @@
-# Zigbee2MQTT konfigurácia pre ESP32-C6 Dual Thermometer
+# Zigbee2MQTT Configuration for ESP32-C6 Dual Thermometer
 
-## Automatická detekcia
+## Automatic Detection
 
-ESP32-C6 s implementovaným Zigbee stackom by mal byť automaticky rozpoznaný Zigbee2MQTT ako teplotný senzor s dvomi endpointmi.
+The ESP32-C6 with implemented Zigbee stack should be automatically recognized by Zigbee2MQTT as a temperature sensor with two endpoints.
 
-Po pripojení zariadenia do Zigbee siete by ste mali vidieť v Home Assistant:
+After connecting the device to the Zigbee network, you should see in Home Assistant:
 - **Sensor 1**: Temperature sensor (endpoint 11)
 - **Sensor 2**: Temperature sensor (endpoint 12)
 
-## Postup párovania
+## Pairing Procedure
 
 1. **Povoľte párovanie v Zigbee2MQTT:**
    - V Home Assistant prejdite na: Configuration → Integrations → Zigbee2MQTT
@@ -23,13 +23,13 @@ Po pripojení zariadenia do Zigbee siete by ste mali vidieť v Home Assistant:
    - V logoch by ste mali vidieť: "Joined network successfully"
    - V Z2M sa zobrazí nové zariadenie
 
-## Manuálna konfigurácia (ak je potrebná)
+## Manual Configuration (if needed)
 
-Ak by automatická detekcia nefungovala správne, môžete vytvoriť vlastný konvertor.
+If automatic detection does not work properly, you can create a custom converter.
 
 ### Variant 1: External Converter (JavaScript)
 
-Vytvorte súbor: `esp32c6_thermometer.js` v adresári Zigbee2MQTT:
+Create file: `esp32c6_thermometer.js` in the Zigbee2MQTT directory:
 
 ```javascript
 const fz = require('zigbee-herdsman-converters/converters/fromZigbee');
@@ -73,17 +73,17 @@ const definition = {
 module.exports = definition;
 ```
 
-### Aktivácia external convertora:
+### Activating the external converter:
 
-1. Uložte súbor `esp32c6_thermometer.js` do adresára s Zigbee2MQTT konfiguráciou
-2. Upravte `configuration.yaml` Zigbee2MQTT:
+1. Save the file `esp32c6_thermometer.js` to the directory with Zigbee2MQTT configuration
+2. Edit `configuration.yaml` in Zigbee2MQTT:
 
 ```yaml
 # Zigbee2MQTT configuration.yaml
 external_converters:
   - esp32c6_thermometer.js
 
-# Ostatné nastavenia...
+# Other settings...
 advanced:
   log_level: info
   
@@ -92,14 +92,14 @@ mqtt:
   server: mqtt://localhost:1883
 ```
 
-3. Reštartujte Zigbee2MQTT
+3. Restart Zigbee2MQTT
 
-### Variant 2: Jednoduchšia konfigurácia (YAML)
+### Variant 2: Simpler Configuration (YAML)
 
-Ak používate novšiu verziu Z2M, môžete pridať zariadenie priamo v `devices.yaml`:
+If you are using a newer version of Z2M, you can add the device directly in `devices.yaml`:
 
 ```yaml
-'0x00124b001234abcd':  # Nahraďte IEEE adresou vášho zariadenia
+'0x00124b001234abcd':  # Replace with your device's IEEE address
   friendly_name: 'esp32c6_thermometer'
   description: 'ESP32-C6 Dual Temperature Sensor'
   endpoints:
@@ -113,7 +113,7 @@ Ak používate novšiu verziu Z2M, môžete pridať zariadenie priamo v `devices
         temperature:
           min: 10
           max: 300
-          change: 100  # 1°C = 100 (hodnota * 100)
+          change: 100  # 1°C = 100 (value * 100)
     12:
       bindings:
         - cluster: 'msTemperatureMeasurement'
@@ -127,22 +127,22 @@ Ak používate novšiu verziu Z2M, môžete pridať zariadenie priamo v `devices
           change: 100
 ```
 
-## Home Assistant integrácia
+## Home Assistant Integration
 
-Po úspešnom párovaní sa v Home Assistant automaticky vytvoria entity:
+After successful pairing, entities will be automatically created in Home Assistant:
 
 ```yaml
-# Príklad entít
+# Example entities
 sensor.esp32c6_thermometer_sensor1_temperature
 sensor.esp32c6_thermometer_sensor2_temperature
 ```
 
-### Príklad automatizácie v Home Assistant:
+### Example automation in Home Assistant:
 
 ```yaml
-# configuration.yaml alebo automations.yaml
+# configuration.yaml or automations.yaml
 automation:
-  - alias: "Upozornenie pri zmene teploty"
+  - alias: "Temperature change notification"
     trigger:
       - platform: state
         entity_id: 
@@ -155,36 +155,36 @@ automation:
     action:
       - service: notify.mobile_app
         data:
-          title: "Zmena teploty"
+          title: "Temperature Change"
           message: >
-            Teplota na {{ trigger.to_state.name }} sa zmenila z 
-            {{ trigger.from_state.state }}°C na {{ trigger.to_state.state }}°C
+            Temperature on {{ trigger.to_state.name }} changed from 
+            {{ trigger.from_state.state }}°C to {{ trigger.to_state.state }}°C
 ```
 
-### Lovelace karta:
+### Lovelace card:
 
 ```yaml
 type: entities
-title: ESP32-C6 Teploty
+title: ESP32-C6 Temperatures
 entities:
   - entity: sensor.esp32c6_thermometer_sensor1_temperature
-    name: Senzor 1 (DS18B20)
+    name: Sensor 1 (DS18B20)
     icon: mdi:thermometer
   - entity: sensor.esp32c6_thermometer_sensor2_temperature
-    name: Senzor 2 (DS18B20)
+    name: Sensor 2 (DS18B20)
     icon: mdi:thermometer
 ```
 
-## Overenie funkčnosti
+## Functionality Verification
 
-### V Zigbee2MQTT web rozhraní:
+### In Zigbee2MQTT web interface:
 
-1. Prejdite na záložku "Devices"
-2. Nájdite ESP32C6 zariadenie
-3. Mali by ste vidieť dva endpointy s teplotnými senzormi
-4. Kliknite na "Exposes" a overte, že sa zobrazujú teploty
+1. Go to the "Devices" tab
+2. Find the ESP32C6 device
+3. You should see two endpoints with temperature sensors
+4. Click on "Exposes" and verify that temperatures are displayed
 
-### V logoch:
+### In logs:
 
 ```
 Zigbee2MQTT:info  Device 'esp32c6_thermometer' joined
@@ -193,33 +193,33 @@ Zigbee2MQTT:info  Successfully interviewed 'esp32c6_thermometer'
 Zigbee2MQTT:info  Device 'esp32c6_thermometer' announced itself
 ```
 
-### Testovanie zmeny teploty:
+### Testing temperature change:
 
-1. Zohrievte jeden zo senzorov (napr. prstami)
-2. Počkajte, kým sa teplota zmení o viac ako 1°C
-3. V Z2M by ste mali vidieť aktualizáciu hodnoty
-4. V Home Assistant sa hodnota automaticky aktualizuje
+1. Heat one of the sensors (e.g. with fingers)
+2. Wait until the temperature changes by more than 1°C
+3. In Z2M you should see the value update
+4. In Home Assistant the value updates automatically
 
-## Riešenie problémov
+## Troubleshooting
 
-### Zariadenie sa nepripojí:
-1. Overte, že je Z2M v režime "Permit Join"
-2. Skontrolujte Zigbee kanál (v ESP32 kóde nastavený PRIMARY_CHANNEL_MASK)
-3. Reštartujte ESP32-C6
-4. Skontrolujte logy v sériovom monitore
+### Device won't connect:
+1. Verify that Z2M is in "Permit Join" mode
+2. Check the Zigbee channel (set in ESP32 code PRIMARY_CHANNEL_MASK)
+3. Restart ESP32-C6
+4. Check logs in serial monitor
 
-### Teploty sa neaktualizujú:
-1. Overte, že binding a reporting sú správne nastavené
-2. Skontrolujte threshold (1°C) v kóde
-3. Overte funkčnosť senzorov
-4. Skontrolujte MQTT spojenie
+### Temperatures not updating:
+1. Verify that binding and reporting are correctly configured
+2. Check threshold (1°C) in code
+3. Verify sensor functionality
+4. Check MQTT connection
 
-### Zobrazuje sa iba jeden senzor:
-1. Overte multi-endpoint konfiguráciu
-2. Skontrolujte, či sú nájdené oba DS18B20 senzory v logoch
-3. Overte endpoint konfiguráciu (11 a 12)
+### Only one sensor is displayed:
+1. Verify multi-endpoint configuration
+2. Check if both DS18B20 sensors are found in logs
+3. Verify endpoint configuration (11 and 12)
 
-## Užitočné príkazy
+## Useful Commands
 
 ### Zigbee2MQTT log monitoring:
 ```bash
@@ -232,11 +232,11 @@ ha addons logs zigbee2mqtt -f
 
 ### MQTT monitoring:
 ```bash
-# Subscribe k teplotným topikom
+# Subscribe to temperature topics
 mosquitto_sub -h localhost -t 'zigbee2mqtt/esp32c6_thermometer/#' -v
 ```
 
-## Poznámky
+## Notes
 
 - ESP32-C6 funguje ako Zigbee router (nie end device), takže posilňuje sieť
 - Zmeny teploty sa odosielajú iba ak je rozdiel ≥ 1°C (nastaviteľné v kóde)

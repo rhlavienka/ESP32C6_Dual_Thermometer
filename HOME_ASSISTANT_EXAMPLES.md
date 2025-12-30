@@ -1,37 +1,37 @@
-# Home Assistant - Príklady automatizácií a konfigurácií
+# Home Assistant - Automation and Configuration Examples
 
-## Automatické entity po pripojení
+## Automatic Entities After Connection
 
-Po úspešnom pripojení ESP32-C6 do Zigbee2MQTT sa v Home Assistant automaticky vytvoria:
+After successfully connecting ESP32-C6 to Zigbee2MQTT, the following will be automatically created in Home Assistant:
 
 ```yaml
 sensor.esp32c6_thermometer_sensor1_temperature
 sensor.esp32c6_thermometer_sensor2_temperature
 ```
 
-## Lovelace karty
+## Lovelace Cards
 
-### 1. Základná karta s teplotami
+### 1. Basic Card with Temperatures
 
 ```yaml
 type: entities
-title: ESP32-C6 Teplotné senzory
+title: ESP32-C6 Temperature Sensors
 entities:
   - entity: sensor.esp32c6_thermometer_sensor1_temperature
-    name: Senzor 1 (Miestnosť)
+    name: Sensor 1 (Room)
     icon: mdi:thermometer
   - entity: sensor.esp32c6_thermometer_sensor2_temperature
-    name: Senzor 2 (Vonku)
+    name: Sensor 2 (Outside)
     icon: mdi:thermometer
 show_header_toggle: false
 ```
 
-### 2. Gauge karta (teplomer)
+### 2. Gauge Card (Thermometer)
 
 ```yaml
 type: gauge
 entity: sensor.esp32c6_thermometer_sensor1_temperature
-name: Teplota v miestnosti
+name: Room Temperature
 unit: °C
 min: 0
 max: 40
@@ -42,32 +42,32 @@ severity:
 needle: true
 ```
 
-### 3. Grafická história
+### 3. History Graph
 
 ```yaml
 type: history-graph
-title: Priebeh teplôt (24h)
+title: Temperature History (24h)
 entities:
   - entity: sensor.esp32c6_thermometer_sensor1_temperature
-    name: Miestnosť
+    name: Room
   - entity: sensor.esp32c6_thermometer_sensor2_temperature
-    name: Vonku
+    name: Outside
 hours_to_show: 24
 refresh_interval: 60
 ```
 
-### 4. Mini Graph Card (vyžaduje HACS plugin)
+### 4. Mini Graph Card (requires HACS plugin)
 
 ```yaml
 type: custom:mini-graph-card
 entities:
   - entity: sensor.esp32c6_thermometer_sensor1_temperature
-    name: Miestnosť
+    name: Room
     color: '#e74c3c'
   - entity: sensor.esp32c6_thermometer_sensor2_temperature
-    name: Vonku
+    name: Outside
     color: '#3498db'
-name: Teploty
+name: Temperatures
 hours_to_show: 12
 points_per_hour: 4
 line_width: 2
@@ -76,14 +76,14 @@ show:
   points: false
 ```
 
-### 5. Rozdiel teplôt (Template sensor)
+### 5. Temperature Difference (Template sensor)
 
-Vytvorte v `configuration.yaml`:
+Create in `configuration.yaml`:
 
 ```yaml
 template:
   - sensor:
-      - name: "Teplotný rozdiel"
+      - name: "Temperature Difference"
         unit_of_measurement: "°C"
         state: >
           {% set sensor1 = states('sensor.esp32c6_thermometer_sensor1_temperature') | float(0) %}
@@ -97,18 +97,18 @@ Potom v Lovelace:
 ```yaml
 type: entity
 entity: sensor.teplotny_rozdiel
-name: Rozdiel teplôt (Vnútri - Vonku)
+name: Temperature Difference (Inside - Outside)
 icon: mdi:delta
 ```
 
-## Automatizácie
+## Automations
 
-### 1. Upozornenie pri vysokej teplote
+### 1. High Temperature Notification
 
 ```yaml
 automation:
-  - alias: "Upozornenie - Vysoká teplota"
-    description: "Odošle notifikáciu pri teplote nad 30°C"
+  - alias: "High Temperature Warning"
+    description: "Sends notification when temperature exceeds 30°C"
     trigger:
       - platform: numeric_state
         entity_id: sensor.esp32c6_thermometer_sensor1_temperature
@@ -116,20 +116,20 @@ automation:
     action:
       - service: notify.mobile_app_your_phone
         data:
-          title: "🔥 Vysoká teplota!"
+          title: "🔥 High Temperature!"
           message: >
-            Teplota v miestnosti dosiahla {{ states('sensor.esp32c6_thermometer_sensor1_temperature') }}°C
+            Room temperature reached {{ states('sensor.esp32c6_thermometer_sensor1_temperature') }}°C
           data:
             priority: high
             ttl: 0
 ```
 
-### 2. Upozornenie pri nízkej teplote
+### 2. Low Temperature Notification
 
 ```yaml
 automation:
-  - alias: "Upozornenie - Nízka teplota"
-    description: "Odošle notifikáciu pri teplote pod 15°C"
+  - alias: "Low Temperature Warning"
+    description: "Sends notification when temperature drops below 15°C"
     trigger:
       - platform: numeric_state
         entity_id: sensor.esp32c6_thermometer_sensor2_temperature
@@ -139,17 +139,17 @@ automation:
     action:
       - service: notify.mobile_app_your_phone
         data:
-          title: "❄️ Nízka teplota!"
+          title: "❄️ Low Temperature!"
           message: >
-            Vonkajšia teplota klesla na {{ states('sensor.esp32c6_thermometer_sensor2_temperature') }}°C
+            Outside temperature dropped to {{ states('sensor.esp32c6_thermometer_sensor2_temperature') }}°C
 ```
 
-### 3. Zapnutie vykurovania pri nízkej teplote
+### 3. Auto Heating When Low Temperature
 
 ```yaml
 automation:
-  - alias: "Automatické vykurovanie"
-    description: "Zapne vykurovanie ak teplota klesne pod 19°C"
+  - alias: "Automatic Heating"
+    description: "Turns on heating if temperature drops below 19°C"
     trigger:
       - platform: numeric_state
         entity_id: sensor.esp32c6_thermometer_sensor1_temperature
@@ -168,15 +168,15 @@ automation:
           temperature: 21
       - service: notify.mobile_app_your_phone
         data:
-          message: "Vykurovanie zapnuté (teplota: {{ states('sensor.esp32c6_thermometer_sensor1_temperature') }}°C)"
+          message: "Heating turned on (temperature: {{ states('sensor.esp32c6_thermometer_sensor1_temperature') }}°C)"
 ```
 
-### 4. Vetranie pri vysokom teplotnom rozdiele
+### 4. Ventilation with High Temperature Difference
 
 ```yaml
 automation:
-  - alias: "Odporúčanie vetrania"
-    description: "Odporúča vetranie ak je vonku chladnejšie o viac ako 5°C"
+  - alias: "Ventilation Recommendation"
+    description: "Recommends ventilation if outside is cooler by more than 5°C"
     trigger:
       - platform: template
         value_template: >
@@ -193,46 +193,46 @@ automation:
     action:
       - service: notify.mobile_app_your_phone
         data:
-          title: "💨 Vetranie odporúčané"
+          title: "💨 Ventilation Recommended"
           message: >
-            Vonku je o {{ (states('sensor.esp32c6_thermometer_sensor1_temperature') | float - 
-            states('sensor.esp32c6_thermometer_sensor2_temperature') | float) | round(1) }}°C chladnejšie. 
-            Otvorte okná!
+            Outside is {{ (states('sensor.esp32c6_thermometer_sensor1_temperature') | float - 
+            states('sensor.esp32c6_thermometer_sensor2_temperature') | float) | round(1) }}°C cooler. 
+            Open windows!
 ```
 
-### 5. Denný report teplôt
+### 5. Daily Temperature Report
 
 ```yaml
 automation:
-  - alias: "Denný teplotný report"
-    description: "Odošle denný súhrn teplôt"
+  - alias: "Daily Temperature Report"
+    description: "Sends daily temperature summary"
     trigger:
       - platform: time
         at: "20:00:00"
     action:
       - service: notify.mobile_app_your_phone
         data:
-          title: "📊 Denný teplotný report"
+          title: "📊 Daily Temperature Report"
           message: >
-            Dnešné teploty:
+            Today's temperatures:
             
-            Miestnosť:
-            - Aktuálne: {{ states('sensor.esp32c6_thermometer_sensor1_temperature') }}°C
+            Room:
+            - Current: {{ states('sensor.esp32c6_thermometer_sensor1_temperature') }}°C
             - Min: {{ state_attr('sensor.esp32c6_thermometer_sensor1_temperature', 'min_value') }}°C
             - Max: {{ state_attr('sensor.esp32c6_thermometer_sensor1_temperature', 'max_value') }}°C
             
-            Vonku:
-            - Aktuálne: {{ states('sensor.esp32c6_thermometer_sensor2_temperature') }}°C
+            Outside:
+            - Current: {{ states('sensor.esp32c6_thermometer_sensor2_temperature') }}°C
             - Min: {{ state_attr('sensor.esp32c6_thermometer_sensor2_temperature', 'min_value') }}°C
             - Max: {{ state_attr('sensor.esp32c6_thermometer_sensor2_temperature', 'max_value') }}°C
 ```
 
-### 6. Záznam do Google Sheets (vyžaduje Google Sheets integration)
+### 6. Log to Google Sheets (requires Google Sheets integration)
 
 ```yaml
 automation:
-  - alias: "Záznam teplôt do Google Sheets"
-    description: "Každú hodinu zaznamená teploty do Google Sheets"
+  - alias: "Log Temperatures to Google Sheets"
+    description: "Logs temperatures to Google Sheets every hour"
     trigger:
       - platform: time_pattern
         minutes: 0
@@ -247,15 +247,15 @@ automation:
             difference: "{{ (states('sensor.esp32c6_thermometer_sensor1_temperature') | float - states('sensor.esp32c6_thermometer_sensor2_temperature') | float) | round(1) }}"
 ```
 
-## Template senzory (utility)
+## Template Sensors (utility)
 
-V `configuration.yaml`:
+In `configuration.yaml`:
 
 ```yaml
 template:
   - sensor:
-      # Priemerná teplota z oboch senzorov
-      - name: "Priemerná teplota"
+      # Average temperature from both sensors
+      - name: "Average Temperature"
         unit_of_measurement: "°C"
         state: >
           {% set sensor1 = states('sensor.esp32c6_thermometer_sensor1_temperature') | float(0) %}
@@ -263,8 +263,8 @@ template:
           {{ ((sensor1 + sensor2) / 2) | round(1) }}
         icon: mdi:thermometer
         
-      # Minimálna teplota
-      - name: "Minimálna teplota"
+      # Minimum temperature
+      - name: "Minimum Temperature"
         unit_of_measurement: "°C"
         state: >
           {% set sensor1 = states('sensor.esp32c6_thermometer_sensor1_temperature') | float(0) %}
@@ -272,8 +272,8 @@ template:
           {{ [sensor1, sensor2] | min | round(1) }}
         icon: mdi:thermometer-chevron-down
         
-      # Maximálna teplota
-      - name: "Maximálna teplota"
+      # Maximum temperature
+      - name: "Maximum Temperature"
         unit_of_measurement: "°C"
         state: >
           {% set sensor1 = states('sensor.esp32c6_thermometer_sensor1_temperature') | float(0) %}
@@ -282,22 +282,22 @@ template:
         icon: mdi:thermometer-chevron-up
 
   - binary_sensor:
-      # Detekcia zmrznutia
-      - name: "Riziko mrazu"
+      # Frost detection
+      - name: "Frost Risk"
         state: >
           {{ states('sensor.esp32c6_thermometer_sensor2_temperature') | float(100) < 3 }}
         icon: mdi:snowflake-alert
         device_class: cold
         
-      # Vysoká teplota varovanie
-      - name: "Vysoká teplota varovanie"
+      # High temperature warning
+      - name: "High Temperature Warning"
         state: >
           {{ states('sensor.esp32c6_thermometer_sensor1_temperature') | float(0) > 28 }}
         icon: mdi:fire-alert
         device_class: heat
 ```
 
-## Grafy a štatistiky
+## Graphs and Statistics
 
 ### Statistics Card
 
@@ -316,21 +316,21 @@ period:
 days_to_show: 7
 ```
 
-### ApexCharts Card (vyžaduje HACS)
+### ApexCharts Card (requires HACS)
 
 ```yaml
 type: custom:apexcharts-card
 graph_span: 24h
 header:
   show: true
-  title: Teploty za posledných 24 hodín
+  title: Temperatures for Last 24 Hours
 series:
   - entity: sensor.esp32c6_thermometer_sensor1_temperature
-    name: Miestnosť
+    name: Room
     stroke_width: 2
     curve: smooth
   - entity: sensor.esp32c6_thermometer_sensor2_temperature
-    name: Vonku
+    name: Outside
     stroke_width: 2
     curve: smooth
 apex_config:
@@ -338,20 +338,20 @@ apex_config:
     height: 300px
   yaxis:
     - title:
-        text: "Teplota (°C)"
+        text: "Temperature (°C)"
 ```
 
-## Node-RED integrácia
+## Node-RED Integration
 
-Ak používate Node-RED, môžete vytvoriť flow na spracovanie údajov:
+If you use Node-RED, you can create a flow to process data:
 
-### Príklad flow:
+### Example flow:
 
 1. **MQTT In** node
    - Server: mqtt://your_mqtt_server:1883
    - Topic: `zigbee2mqtt/esp32c6_thermometer`
 
-2. **Function** node (spracovanie):
+2. **Function** node (processing):
    ```javascript
    const temp1 = msg.payload.temperature_sensor1;
    const temp2 = msg.payload.temperature_sensor2;
@@ -366,13 +366,13 @@ Ak používate Node-RED, môžete vytvoriť flow na spracovanie údajov:
    return msg;
    ```
 
-3. **Debug/Output** nodes podľa potreby
+3. **Debug/Output** nodes as needed
 
-## InfluxDB a Grafana
+## InfluxDB and Grafana
 
-Pre pokročilé vizualizácie:
+For advanced visualizations:
 
-### InfluxDB konfigurácia v HA:
+### InfluxDB configuration in HA:
 
 ```yaml
 influxdb:
@@ -399,14 +399,14 @@ AND $timeFilter
 GROUP BY time(5m) fill(linear)
 ```
 
-## Užitočné scripty
+## Useful Scripts
 
-### Script na reset min/max hodnôt (ak používate Statistics)
+### Script to reset min/max values (if using Statistics)
 
 ```yaml
 script:
   reset_temperature_stats:
-    alias: "Reset teplotných štatistík"
+    alias: "Reset Temperature Statistics"
     sequence:
       - service: recorder.purge_entities
         data:
@@ -416,17 +416,17 @@ script:
           keep_days: 0
       - service: notify.mobile_app_your_phone
         data:
-          message: "Teplotné štatistiky boli resetované"
+          message: "Temperature statistics have been reset"
 ```
 
-## Diagnostika a monitoring
+## Diagnostics and Monitoring
 
-### Sledovanie dostupnosti zariadenia
+### Monitoring device availability
 
 ```yaml
 automation:
-  - alias: "ESP32-C6 Offline upozornenie"
-    description: "Upozorní ak ESP32-C6 prestane komunikovať"
+  - alias: "ESP32-C6 Offline Notification"
+    description: "Notifies if ESP32-C6 stops communicating"
     trigger:
       - platform: state
         entity_id: sensor.esp32c6_thermometer_sensor1_temperature
@@ -437,11 +437,11 @@ automation:
       - service: notify.mobile_app_your_phone
         data:
           title: "⚠️ ESP32-C6 Offline"
-          message: "Teplotný senzor ESP32-C6 neodpovedá už 5 minút!"
+          message: "ESP32-C6 temperature sensor hasn't responded for 5 minutes!"
           data:
             priority: high
 ```
 
 ---
 
-**Tip:** Všetky tieto príklady môžete prispôsobiť vašim potrebám. Nezabudnite nahradiť `your_phone`, entity IDs a ďalšie špecifické hodnoty podľa vášho nastavenia!
+**Tip:** You can customize all these examples to your needs. Don't forget to replace `your_phone`, entity IDs, and other specific values according to your setup!

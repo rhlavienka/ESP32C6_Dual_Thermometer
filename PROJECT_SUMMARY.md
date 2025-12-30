@@ -1,13 +1,13 @@
-# Súhrn projektu - ESP32-C6 Zigbee Thermometer
+# Project Summary - ESP32-C6 Zigbee Thermometer
 
-## 📦 Vytvorené súbory
+## 📦 Created Files
 
-### Hlavné súbory projektu:
+### Main project files:
 ```
 C6_Thermometer/
-├── CMakeLists.txt                    # Root CMake konfigurácia
-├── partitions.csv                    # Partition table pre Zigbee
-├── sdkconfig.defaults                # ESP-IDF default konfigurácia
+├── CMakeLists.txt                    # Root CMake configuration
+├── partitions.csv                    # Partition table for Zigbee
+├── sdkconfig.defaults                # ESP-IDF default configuration
 ├── .gitignore                        # Git ignore patterns
 │
 ├── main/
@@ -18,33 +18,33 @@ C6_Thermometer/
 │   ├── ds18b20.h                     # DS18B20 driver header
 │   └── ds18b20.c                     # DS18B20 driver implementácia
 │
-└── Dokumentácia:
-    ├── README.md                     # Prehľad projektu
-    ├── INSTALL.md                    # Inštalačný návod (Windows)
-    ├── DS18B20_ADDRESS_DETECTION.md  # Detekcia senzorov
-    ├── ZIGBEE2MQTT_CONFIG.md         # Z2M konfigurácia
-    ├── WIRING.md                     # Schéma zapojenia
-    ├── HOME_ASSISTANT_EXAMPLES.md    # HA automatizácie
-    ├── FAQ.md                        # Často kladené otázky
-    ├── CHANGELOG.md                  # História zmien
+└── Documentation:
+    ├── README.md                     # Project overview
+    ├── INSTALL.md                    # Installation guide (Windows)
+    ├── DS18B20_ADDRESS_DETECTION.md  # Sensor detection
+    ├── ZIGBEE2MQTT_CONFIG.md         # Z2M configuration
+    ├── WIRING.md                     # Wiring diagram
+    ├── HOME_ASSISTANT_EXAMPLES.md    # HA automations
+    ├── FAQ.md                        # Frequently asked questions
+    ├── CHANGELOG.md                  # Change history
     ├── esp32c6_thermometer.js        # Z2M external converter
-    └── PROJECT_SUMMARY.md            # Tento súbor
+    └── PROJECT_SUMMARY.md            # This file
 ```
 
-## 🎯 Čo projekt obsahuje
+## 🎯 What the Project Contains
 
-### 1. **Kompletný ESP-IDF projekt**
-- ✅ Zigbee Router implementácia
-- ✅ OneWire komunikácia
+### 1. **Complete ESP-IDF Project**
+- ✅ Zigbee Router implementation
+- ✅ OneWire communication
 - ✅ DS18B20 driver
-- ✅ Automatická detekcia senzorov
-- ✅ Dual endpoint (2 senzory)
+- ✅ Automatic sensor detection
+- ✅ Dual endpoint (2 sensors)
 
-### 2. **Drivers a knižnice**
-- **onewire_bus.c/h** - Low-level OneWire protokol
+### 2. **Drivers and Libraries**
+- **onewire_bus.c/h** - Low-level OneWire protocol
   - Reset, read, write bit/byte
   - Device search algoritmus
-  - GPIO konfigurácia (open-drain)
+  - GPIO configuration (open-drain)
   
 - **ds18b20.c/h** - DS18B20 špecifický driver
   - Temperature conversion
@@ -57,151 +57,151 @@ C6_Thermometer/
 - Home Automation profil
 - Temperature Measurement cluster
 - Dva endpointy (11, 12)
-- Automatické network steering
-- Binding a reporting konfigurácia
+- Automatic network steering
+- Binding and reporting configuration
 
-### 4. **Dokumentácia**
+### 4. **Documentation**
 
-#### INSTALL.md (5000+ slov)
-- Krok-za-krokom návod pre Windows
-- Inštalácia ESP-IDF
-- Konfigurácia VS Code
+#### INSTALL.md (5000+ words)
+- Step-by-step guide for Windows
+- ESP-IDF installation
+- VS Code configuration
 - Build, Flash, Monitor
-- Riešenie problémov
+- Troubleshooting
 
 #### DS18B20_ADDRESS_DETECTION.md
-- 3 spôsoby detekcie ROM adries
-- Zapojenie senzorov
+- 3 methods for ROM address detection
+- Sensor wiring
 - Troubleshooting
-- Arduino príklady
+- Arduino examples
 
 #### ZIGBEE2MQTT_CONFIG.md
-- Automatická detekcia
+- Automatic detection
 - External converter (JavaScript)
-- YAML konfigurácia
-- Home Assistant integrácia
+- YAML configuration
+- Home Assistant integration
 - MQTT monitoring
 
 #### WIRING.md
-- ASCII schémy zapojenia
+- ASCII wiring diagrams
 - DS18B20 pinout
 - Parasite power mode
-- Výber antény
-- Elektrické parametre
-- Riešenie problémov
+- Antenna selection
+- Electrical parameters
+- Troubleshooting
 
 #### HOME_ASSISTANT_EXAMPLES.md
-- Lovelace karty (7 typov)
-- Automatizácie (6+ príkladov)
-- Template senzory
+- Lovelace cards (7 types)
+- Automations (6+ examples)
+- Template sensors
 - Node-RED flows
 - InfluxDB & Grafana
-- Diagnostické skripty
+- Diagnostic scripts
 
-#### FAQ.md (50+ otázok)
-- Všeobecné otázky
+#### FAQ.md (50+ questions)
+- General questions
 - Hardware
-- Softvér
+- Software
 - Zigbee & Z2M
-- Meranie teploty
+- Temperature measurement
 - Build & Flash
 - Home Assistant
-- Riešenie problémov
-- Vývoj a rozšírenie
+- Troubleshooting
+- Development and extensions
 
-## 🔧 Hlavné funkcie
+## 🔧 Main Functions
 
-### Hardware podpora:
+### Hardware support:
 - ✅ Seeed Studio XIAO ESP32-C6
-- ✅ DS18B20 (všetky varianty)
-- ✅ GPIO5 OneWire (konfigurovateľný)
+- ✅ DS18B20 (all variants)
+- ✅ GPIO5 OneWire (configurable)
 - ✅ 4.7kΩ pull-up
-- ✅ Až 127 senzorov na jednej zbernici
+- ✅ Up to 127 sensors on one bus
 
-### Software funkcie:
-- ✅ Automatická ROM detekcia
-- ✅ 12-bit rozlíšenie (0.0625°C)
+### Software features:
+- ✅ Automatic ROM detection
+- ✅ 12-bit resolution (0.0625°C)
 - ✅ Threshold reporting (1°C)
-- ✅ 5-sekundová perióda merania
-- ✅ Zigbee Router (posilňuje sieť)
-- ✅ Multi-endpoint (každý senzor samostatne)
-- ✅ NVS storage pre Zigbee konfiguráciu
+- ✅ 5-second measurement period
+- ✅ Zigbee Router (strengthens network)
+- ✅ Multi-endpoint (each sensor separately)
+- ✅ NVS storage for Zigbee configuration
 
-### Integrácie:
+### Integrations:
 - ✅ Zigbee2MQTT
 - ✅ Home Assistant
 - ✅ ZHA
 - ✅ deCONZ
 - ✅ MQTT
-- ✅ Node-RED (príklady)
-- ✅ InfluxDB (príklady)
-- ✅ Grafana (príklady)
+- ✅ Node-RED (examples)
+- ✅ InfluxDB (examples)
+- ✅ Grafana (examples)
 
-## 📊 Štatistiky projektu
+## 📊 Project Statistics
 
-### Kód:
-- **main.c**: ~550 riadkov (Zigbee + task management)
-- **onewire_bus.c**: ~250 riadkov (OneWire protokol)
-- **ds18b20.c**: ~100 riadkov (DS18B20 driver)
-- **Celkom C kód**: ~900 riadkov
+### Code:
+- **main.c**: ~550 lines (Zigbee + task management)
+- **onewire_bus.c**: ~250 lines (OneWire protocol)
+- **ds18b20.c**: ~100 lines (DS18B20 driver)
+- **Total C code**: ~900 lines
 
-### Dokumentácia:
-- **README.md**: ~350 riadkov
-- **INSTALL.md**: ~650 riadkov
-- **DS18B20_ADDRESS_DETECTION.md**: ~200 riadkov
-- **ZIGBEE2MQTT_CONFIG.md**: ~350 riadkov
-- **WIRING.md**: ~300 riadkov
-- **HOME_ASSISTANT_EXAMPLES.md**: ~450 riadkov
-- **FAQ.md**: ~450 riadkov
-- **Celkom dokumentácia**: ~2750 riadkov
+### Documentation:
+- **README.md**: ~350 lines
+- **INSTALL.md**: ~650 lines
+- **DS18B20_ADDRESS_DETECTION.md**: ~200 lines
+- **ZIGBEE2MQTT_CONFIG.md**: ~350 lines
+- **WIRING.md**: ~300 lines
+- **HOME_ASSISTANT_EXAMPLES.md**: ~450 lines
+- **FAQ.md**: ~450 lines
+- **Total documentation**: ~2750 lines
 
-### Celkovo:
-- **~3650 riadkov** kódu a dokumentácie
-- **14 súborov** v root
-- **6 súborov** v main/
-- **8 markdown** dokumentov
+### Overall:
+- **~3650 lines** of code and documentation
+- **14 files** in root
+- **6 files** in main/
+- **8 markdown** documents
 
-## 🚀 Ako začať
+## 🚀 How to Get Started
 
-### Rýchly štart (5 krokov):
+### Quick Start (5 steps):
 
-1. **Inštalujte ESP-IDF** podľa INSTALL.md
-2. **Otvorte projekt** vo VS Code
-3. **Zapojte hardware** podľa WIRING.md
+1. **Install ESP-IDF** according to INSTALL.md
+2. **Open project** in VS Code
+3. **Wire hardware** according to WIRING.md
 4. **Build & Flash**: `Ctrl+E` `D`
-5. **Párujte do Z2M** podľa ZIGBEE2MQTT_CONFIG.md
+5. **Pair to Z2M** according to ZIGBEE2MQTT_CONFIG.md
 
-### Prvé kroky po flashnutí:
+### First Steps After Flashing:
 
-1. Otvorte sériový monitor (115200 baud)
-2. Uvidíte ROM adresy senzorov
-3. Povoľte "Permit Join" v Z2M
-4. Reštartujte ESP32-C6
-5. Počkajte na "Joined network successfully"
-6. V Home Assistant uvidíte 2 teplotné entity
+1. Open serial monitor (115200 baud)
+2. You will see sensor ROM addresses
+3. Enable "Permit Join" in Z2M
+4. Restart ESP32-C6
+5. Wait for "Joined network successfully"
+6. In Home Assistant you will see 2 temperature entities
 
-## 🎓 Čo ste sa naučili
+## 🎓 What You Learned
 
-Tento projekt demonštruje:
+This project demonstrates:
 
 ### ESP-IDF:
 - ✅ CMake build system
-- ✅ Component architektúra
-- ✅ FreeRTOS tasky
-- ✅ GPIO konfigurácia (open-drain)
+- ✅ Component architecture
+- ✅ FreeRTOS tasks
+- ✅ GPIO configuration (open-drain)
 - ✅ NVS (Non-Volatile Storage)
 - ✅ Partition management
 
 ### Zigbee:
 - ✅ Zigbee 3.0 stack
 - ✅ Router vs End Device
-- ✅ Clusters a attributes
+- ✅ Clusters and attributes
 - ✅ Endpoints
-- ✅ Binding a reporting
+- ✅ Binding and reporting
 - ✅ Network steering
 
 ### OneWire:
-- ✅ Protokol timing
+- ✅ Protocol timing
 - ✅ Device search
 - ✅ CRC validation
 - ✅ Multi-device bus
@@ -210,57 +210,57 @@ Tento projekt demonštruje:
 - ✅ Zigbee2MQTT
 - ✅ External converters
 - ✅ Home Assistant entity creation
-- ✅ Automatizácie
-- ✅ Lovelace karty
+- ✅ Automations
+- ✅ Lovelace cards
 
-## 🔍 Pokročilé možnosti
+## 🔍 Advanced Options
 
-Projekt je navrhnutý tak, aby bol ľahko rozšíriteľný:
+The project is designed to be easily extensible:
 
-### Pridanie ďalších senzorov:
-1. Upravte `scan_ds18b20_sensors()` - zvýšte limit
-2. Vytvorte ďalšie `ds18b20_device_t` premenné
-3. Pridajte endpointy 13, 14, 15, ...
-4. Rozšírte `temperature_sensor_task()` loop
+### Adding More Sensors:
+1. Modify `scan_ds18b20_sensors()` - increase limit
+2. Create additional `ds18b20_device_t` variables
+3. Add endpoints 13, 14, 15, ...
+4. Extend `temperature_sensor_task()` loop
 
-### Iné typy senzorov:
+### Other Sensor Types:
 - **I2C:** BME280, SHT31, BMP180
-- **Analógové:** LM35, NTC thermistor
-- **SPI:** MAX31855 (termocouple)
+- **Analog:** LM35, NTC thermistor
+- **SPI:** MAX31855 (thermocouple)
 
-### Dodatočné funkcie:
+### Additional Functions:
 - **OTA update** - Over-the-air firmware update
-- **Web server** - Konfigurácia cez WiFi
-- **LCD displej** - Standalone režim
-- **SD karta** - Lokálny logging
-- **Deep sleep** - Batériový režim
+- **Web server** - Configuration via WiFi
+- **LCD display** - Standalone mode
+- **SD card** - Local logging
+- **Deep sleep** - Battery mode
 
-## 📝 Licencia
+## 📝 License
 
-Projekt je voľne použiteľný pre osobné aj komerčné účely.
+The project is freely usable for personal and commercial purposes.
 
-## 🤝 Podpora projektu
+## 🤝 Project Support
 
-### Ak projekt používate:
-1. ⭐ Dajte star na GitHub (ak je tam)
-2. 📢 Zdieľajte s komunitou
-3. 🐛 Nahláste bugy a problémy
-4. 💡 Navrhujte vylepšenia
-5. 🔧 Prispejte kódom (pull requests)
+### If you use the project:
+1. ⭐ Give a star on GitHub (if there)
+2. 📢 Share with the community
+3. 🐛 Report bugs and issues
+4. 💡 Suggest improvements
+5. 🔧 Contribute code (pull requests)
 
-## 🎉 Gratulácie!
+## 🎉 Congratulations!
 
-Máte kompletný, funkčný IoT projekt s:
-- ✅ Profesionálnou dokumentáciou
-- ✅ Production-ready kódom
-- ✅ Home Assistant integráciou
-- ✅ Modulárnou architektúrou
-- ✅ Rozšíriteľnosťou
+You have a complete, functional IoT project with:
+- ✅ Professional documentation
+- ✅ Production-ready code
+- ✅ Home Assistant integration
+- ✅ Modular architecture
+- ✅ Extensibility
 
 ---
 
-**Vytvorené:** November 2025  
-**Verzia:** 1.0.0  
+**Created:** November 2025  
+**Version:** 1.0.0  
 **Framework:** ESP-IDF v5.3+  
 **Target:** ESP32-C6 (Seeed Studio XIAO)  
-**Protokol:** Zigbee 3.0
+**Protocol:** Zigbee 3.0

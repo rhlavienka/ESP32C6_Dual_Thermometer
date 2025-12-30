@@ -1,23 +1,23 @@
-# Inštalačný návod - ESP32-C6 vývojové prostredie pre Windows
+# Installation Guide - ESP32-C6 Development Environment for Windows
 
-Tento návod vás krok za krokom prevedie inštaláciou všetkého potrebného softvéru na Windows PC pre vývoj, kompiláciu a nahrávanie programov do **Seeed Studio XIAO ESP32-C6** pomocou **ESP-IDF** a **Visual Studio Code**.
+This guide will step-by-step walk you through installing all necessary software on a Windows PC for developing, compiling, and uploading programs to **Seeed Studio XIAO ESP32-C6** using **ESP-IDF** and **Visual Studio Code**.
 
 ---
 
-## Požiadavky
+## Requirements
 
 - **Windows 10/11** (64-bit)
-- **8 GB RAM** (odporúčané 16 GB)
-- **10 GB voľného miesta** na disku
-- **Internetové pripojenie** pre sťahovanie softvéru
-- **USB-C kábel** na pripojenie ESP32-C6
-- **Administrátorské práva** (pre inštaláciu ovládačov)
+- **8 GB RAM** (16 GB recommended)
+- **10 GB free disk space**
+- **Internet connection** for downloading software
+- **USB-C cable** for connecting ESP32-C6
+- **Administrator rights** (for driver installation)
 
 ---
 
-## Časť 1: Inštalácia základného softvéru
+## Part 1: Installing Basic Software
 
-### Krok 1.1: Inštalácia Visual Studio Code
+### Step 1.1: Installing Visual Studio Code
 
 1. **Stiahnite VS Code:**
    - Otvorte prehliadač a prejdite na: https://code.visualstudio.com/
@@ -35,194 +35,194 @@ Tento návod vás krok za krokom prevedie inštaláciou všetkého potrebného s
    - Kliknite na **"Install"**
    - Po dokončení kliknite na **"Finish"**
 
-### Krok 1.2: Inštalácia Git pre Windows
+### Step 1.2: Installing Git for Windows
 
-1. **Stiahnite Git:**
-   - Prejdite na: https://git-scm.com/download/win
-   - Stiahnite sa **64-bit Git for Windows Setup**
+1. **Download Git:**
+   - Go to: https://git-scm.com/download/win
+   - Download **64-bit Git for Windows Setup**
 
-2. **Inštalujte Git:**
-   - Spustite inštalátor
-   - Použite **predvolené nastavenia** (stačí klikať "Next")
-   - **DÔLEŽITÉ:** Pri výbere editora vyberte **"Use Visual Studio Code as Git's default editor"**
-   - Dokončite inštaláciu
+2. **Install Git:**
+   - Run the installer
+   - Use **default settings** (just keep clicking "Next")
+   - **IMPORTANT:** When selecting the editor, choose **"Use Visual Studio Code as Git's default editor"**
+   - Complete the installation
 
-3. **Overte inštaláciu:**
-   - Otvorte **PowerShell** (Windows + X → Windows PowerShell)
-   - Zadajte príkaz:
+3. **Verify installation:**
+   - Open **PowerShell** (Windows + X → Windows PowerShell)
+   - Enter the command:
      ```powershell
      git --version
      ```
-   - Malo by sa zobraziť: `git version 2.xx.x`
+   - You should see: `git version 2.xx.x`
 
-### Krok 1.3: Inštalácia Python 3
+### Step 1.3: Installing Python 3
 
-1. **Stiahnite Python:**
-   - Prejdite na: https://www.python.org/downloads/
-   - Kliknite na **"Download Python 3.12.x"** (alebo najnovšiu verziu 3.x)
+1. **Download Python:**
+   - Go to: https://www.python.org/downloads/
+   - Click on **"Download Python 3.12.x"** (or the latest 3.x version)
 
-2. **Inštalujte Python:**
-   - Spustite inštalátor
-   - **VEĽMI DÔLEŽITÉ:** Zaškrtnite **"Add Python 3.xx to PATH"** (dole v okne)
-   - Kliknite na **"Install Now"**
-   - Počkajte na dokončenie
-   - Kliknite na **"Close"**
+2. **Install Python:**
+   - Run the installer
+   - **VERY IMPORTANT:** Check **"Add Python 3.xx to PATH"** (at the bottom of the window)
+   - Click **"Install Now"**
+   - Wait for completion
+   - Click **"Close"**
 
-3. **Overte inštaláciu:**
-   - Otvorte **nový** PowerShell (zatvorte starý ak bol otvorený)
-   - Zadajte:
+3. **Verify installation:**
+   - Open a **new** PowerShell (close the old one if it was open)
+   - Enter:
      ```powershell
      python --version
      ```
-   - Malo by sa zobraziť: `Python 3.12.x`
-   - Zadajte:
+   - You should see: `Python 3.12.x`
+   - Enter:
      ```powershell
      pip --version
      ```
-   - Malo by sa zobraziť: `pip 23.x.x from ...`
+   - You should see: `pip 23.x.x from ...`
 
 ---
 
-## Časť 2: Inštalácia ESP-IDF
+## Part 2: Installing ESP-IDF
 
-### Krok 2.1: Stiahnutie ESP-IDF Installer
+### Step 2.1: Downloading ESP-IDF Installer
 
-1. **Stiahnite ESP-IDF Offline Installer:**
-   - Prejdite na: https://dl.espressif.com/dl/esp-idf/
-   - Vyberte najnovšiu verziu (napr. **esp-idf-5.5** alebo novšiu)
-   - Stiahnite: **esp-idf-tools-setup-offline-5.5.exe** (alebo online verziu ak máte dobrý internet)
+1. **Download ESP-IDF Offline Installer:**
+   - Go to: https://dl.espressif.com/dl/esp-idf/
+   - Select the latest version (e.g. **esp-idf-5.5** or newer)
+   - Download: **esp-idf-tools-setup-offline-5.5.exe** (or online version if you have good internet)
 
-   **Alternatíva - Online installer:**
+   **Alternative - Online installer:**
    - https://dl.espressif.com/dl/esp-idf/
-   - Stiahnite **esp-idf-tools-setup-online-X.X.exe**
+   - Download **esp-idf-tools-setup-online-X.X.exe**
 
-### Krok 2.2: Inštalácia ESP-IDF
+### Step 2.2: Installing ESP-IDF
 
-1. **Spustite inštalátor ESP-IDF:**
-   - Spustite stiahnutý súbor `esp-idf-tools-setup-X.X.exe`
-   - Ak sa zobrazí **User Account Control**, kliknite **"Yes"**
+1. **Run ESP-IDF installer:**
+   - Run the downloaded file `esp-idf-tools-setup-X.X.exe`
+   - If **User Account Control** appears, click **"Yes"**
 
-2. **Výber verzie ESP-IDF:**
-   - Vyberte **"ESP-IDF v5.5"** alebo **"ESP-IDF v5.3"** (alebo najnovšiu stable verziu)
-   - Kliknite **"Next"**
+2. **Select ESP-IDF version:**
+   - Select **"ESP-IDF v5.5"** or **"ESP-IDF v5.3"** (or the latest stable version)
+   - Click **"Next"**
 
-3. **Výber inštalačnej cesty:**
-   - Odporúčaná cesta: `C:\Espressif`
-   - **POZNÁMKA:** Nepoužívajte cestu s medzerami alebo s diakritikou!
-   - Kliknite **"Next"**
+3. **Select installation path:**
+   - Recommended path: `C:\Espressif`
+   - **NOTE:** Don't use paths with spaces or diacritics!
+   - Click **"Next"**
 
-4. **Výber nástrojov:**
-   - Nechajte zaškrtnuté:
+4. **Select tools:**
+   - Leave checked:
      - ✅ ESP-IDF Tools
-     - ✅ ESP-IDF v5.5 (alebo vaša verzia)
+     - ✅ ESP-IDF v5.5 (or your version)
      - ✅ CMake
      - ✅ Ninja
      - ✅ Python packages
-   - Kliknite **"Next"**
+   - Click **"Next"**
 
-5. **Začiatok inštalácie:**
-   - Kliknite **"Install"**
-   - **Čakajte** (môže trvať 10-30 minút v závislosti od rýchlosti internetu a PC)
-   - Po dokončení kliknite **"Finish"**
+5. **Start installation:**
+   - Click **"Install"**
+   - **Wait** (can take 10-30 minutes depending on internet speed and PC)
+   - After completion, click **"Finish"**
 
-### Krok 2.3: Overenie ESP-IDF inštalácie
+### Step 2.3: Verifying ESP-IDF Installation
 
-1. **Otvorte ESP-IDF PowerShell:**
-   - V ponuke Štart nájdite: **"ESP-IDF 5.3 PowerShell"** alebo **"ESP-IDF PowerShell"**
-   - Spustite ho
+1. **Open ESP-IDF PowerShell:**
+   - In the Start menu find: **"ESP-IDF 5.3 PowerShell"** or **"ESP-IDF PowerShell"**
+   - Run it
 
-2. **Overte verziu:**
+2. **Verify version:**
    ```powershell
    idf.py --version
    ```
-   - Malo by sa zobraziť: `ESP-IDF v5.3.x` (alebo vaša verzia)
+   - You should see: `ESP-IDF v5.3.x` (or your version)
 
-3. **Overte kompilátor:**
+3. **Verify compiler:**
    ```powershell
    xtensa-esp32-elf-gcc --version
    ```
-   - Malo by sa zobraziť informácia o GCC kompilátore
+   - You should see information about the GCC compiler
 
 ---
 
-## Časť 3: Konfigurácia Visual Studio Code pre ESP-IDF
+## Part 3: Configuring Visual Studio Code for ESP-IDF
 
-### Krok 3.1: Inštalácia ESP-IDF rozšírenia
+### Step 3.1: Installing ESP-IDF Extension
 
-1. **Otvorte VS Code**
+1. **Open VS Code**
 
-2. **Otvorte Extensions:**
-   - Kliknite na ikonu **Extensions** v ľavom paneli (alebo stlačte `Ctrl+Shift+X`)
+2. **Open Extensions:**
+   - Click on the **Extensions** icon in the left panel (or press `Ctrl+Shift+X`)
 
-3. **Nainštalujte ESP-IDF Extension:**
-   - Do vyhľadávacieho poľa zadajte: **"Espressif IDF"**
-   - Nájdite rozšírenie: **"ESP-IDF"** od vydavateľa **Espressif**
-   - Kliknite na **"Install"**
-   - Počkajte na dokončenie inštalácie
+3. **Install ESP-IDF Extension:**
+   - In the search box, type: **"Espressif IDF"**
+   - Find the extension: **"ESP-IDF"** by publisher **Espressif**
+   - Click **"Install"**
+   - Wait for installation to complete
 
-4. **Nainštalujte C/C++ Extension:**
-   - Vyhľadajte: **"C/C++"**
-   - Nainštalujte rozšírenie **"C/C++"** od **Microsoft**
+4. **Install C/C++ Extension:**
+   - Search for: **"C/C++"**
+   - Install the **"C/C++"** extension by **Microsoft**
 
-### Krok 3.2: Konfigurácia ESP-IDF rozšírenia
+### Step 3.2: Configuring ESP-IDF Extension
 
-1. **Otvorte Command Palette:**
-   - Stlačte `Ctrl+Shift+P`
+1. **Open Command Palette:**
+   - Press `Ctrl+Shift+P`
 
-2. **Spustite konfiguráciu:**
-   - Zadajte: **"ESP-IDF: Configure ESP-IDF Extension"**
-   - Stlačte Enter
+2. **Run configuration:**
+   - Type: **"ESP-IDF: Configure ESP-IDF Extension"**
+   - Press Enter
 
-3. **Vyberte Express Setup:**
-   - Vyberte **"Express"** (odporúčané pre začiatočníkov)
-   - Kliknite **"Continue"**
+3. **Select Express Setup:**
+   - Select **"Express"** (recommended for beginners)
+   - Click **"Continue"**
 
-4. **Nastavte cesty:**
-   - **ESP-IDF Path:** `C:\Espressif\frameworks\esp-idf-v5.3` (alebo vaša verzia)
+4. **Set paths:**
+   - **ESP-IDF Path:** `C:\Espressif\frameworks\esp-idf-v5.3` (or your version)
    - **ESP-IDF Tools Path:** `C:\Espressif`
-   - **Python Path:** Malo by sa automaticky nájsť (napr. `C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe`)
-   - Kliknite **"Configure"**
+   - **Python Path:** Should be found automatically (e.g. `C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe`)
+   - Click **"Configure"**
 
-5. **Počkajte na dokončenie:**
-   - Extension sa nakonfiguruje (môže trvať 1-2 minúty)
-   - Po dokončení sa zobrazí: **"ESP-IDF configured successfully"**
+5. **Wait for completion:**
+   - The extension will configure (may take 1-2 minutes)
+   - After completion you will see: **"ESP-IDF configured successfully"**
 
-#### ⚠️ Ak sa vyskytne chyba "ERROR_INVALID_PIP":
+#### ⚠️ If you encounter the error "ERROR_INVALID_PIP":
 
-Toto je známy problém s Python virtual environment. **Riešenie:**
+This is a known issue with Python virtual environment. **Solution:**
 
-**Variant 1 - Použite Advanced namiesto Express:**
+**Variant 1 - Use Advanced instead of Express:**
 
-1. V kroku 3 vyberte **"Advanced"** namiesto "Express"
-2. Nastavte:
+1. In step 3, select **"Advanced"** instead of "Express"
+2. Set:
    - **Select ESP-IDF version:** `Find ESP-IDF in your system`
    - **Enter ESP-IDF directory:** `C:\Espressif\frameworks\esp-idf-v5.3`
    - **Select Python:** `Use existing Python` → `C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe`
    - **Select Custom tools folder:** `C:\Espressif\tools`
-3. Kliknite **"Configure"**
+3. Click **"Configure"**
 
-**Variant 2 - Manuálne nastavenie v VS Code settings:**
+**Variant 2 - Manual setup in VS Code settings:**
 
-1. Otvorte VS Code Settings (`Ctrl+,`)
-2. Vyhľadajte: `idf`
-3. Nastavte tieto hodnoty:
+1. Open VS Code Settings (`Ctrl+,`)
+2. Search for: `idf`
+3. Set these values:
    - `Idf.espIdfPath`: `C:\Espressif\frameworks\esp-idf-v5.3`
    - `Idf.toolsPath`: `C:\Espressif\tools`
    - `Idf.pythonBinPath`: `C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe`
    - `Idf.gitPath`: `C:\Program Files\Git\cmd\git.exe`
-   - `Idf.customExtraPaths`: Nechajte prázdne
-4. Reštartujte VS Code
+   - `Idf.customExtraPaths`: Leave empty
+4. Restart VS Code
 
-**Variant 3 - Použite ESP-IDF PowerShell namiesto VS Code:**
+**Variant 3 - Use ESP-IDF PowerShell instead of VS Code:**
 
-Ak VS Code extension naďalej nefunguje, môžete používať priamo ESP-IDF PowerShell:
+If VS Code extension still doesn't work, you can use ESP-IDF PowerShell directly:
 
-1. Otvorte **ESP-IDF 5.3 PowerShell** (z ponuky Štart)
-2. Navigujte do projektu:
+1. Open **ESP-IDF 5.3 PowerShell** (from Start menu)
+2. Navigate to the project:
    ```powershell
    cd "C:\Users\rhlavienka\OneDrive - SOFTIP, a.s\Documents\DevOps\PlayGround\ESP32\C6_Thermometer"
    ```
-3. Nastavte target:
+3. Set target:
    ```powershell
    idf.py set-target esp32c6
    ```
@@ -230,92 +230,92 @@ Ak VS Code extension naďalej nefunguje, môžete používať priamo ESP-IDF Pow
    ```powershell
    idf.py build
    ```
-5. Flash (nahraďte COM port):
+5. Flash (replace COM port):
    ```powershell
    idf.py -p COM3 flash monitor
    ```
 
-**Variant 4 - Preinštalujte Python environment:**
+**Variant 4 - Reinstall Python environment:**
 
-1. Otvorte **ESP-IDF PowerShell**
-2. Spustite:
+1. Open **ESP-IDF PowerShell**
+2. Run:
    ```powershell
    cd C:\Espressif\frameworks\esp-idf-v5.3
    python install.py
    ```
-3. Potom v VS Code: `Ctrl+Shift+P` → **"ESP-IDF: Configure ESP-IDF Extension"** → Advanced
+3. Then in VS Code: `Ctrl+Shift+P` → **"ESP-IDF: Configure ESP-IDF Extension"** → Advanced
 
-### Krok 3.3: Nastavenie USB ovládačov pre ESP32-C6
+### Step 3.3: Setting Up USB Drivers for ESP32-C6
 
-1. **Pripojte ESP32-C6 k PC:**
-   - Použijte USB-C kábel (ktorý podporuje dáta!)
-   - Pripojte XIAO ESP32-C6 k PC
+1. **Connect ESP32-C6 to PC:**
+   - Use a USB-C cable (that supports data!)
+   - Connect XIAO ESP32-C6 to PC
 
-2. **Overte rozpoznanie zariadenia:**
-   - Otvorte **Device Manager** (Správca zariadení):
+2. **Verify device recognition:**
+   - Open **Device Manager**:
      - Windows + X → Device Manager
-   - Rozbaľte sekciu **"Ports (COM & LPT)"**
-   - Mali by ste vidieť: **"USB Serial Device (COMx)"** alebo **"USB-SERIAL CH340 (COMx)"**
-   - Zapamätajte si číslo portu (napr. **COM3**, **COM5**, atď.)
+   - Expand the **"Ports (COM & LPT)"** section
+   - You should see: **"USB Serial Device (COMx)"** or **"USB-SERIAL CH340 (COMx)"**
+   - Remember the port number (e.g. **COM3**, **COM5**, etc.)
 
-3. **Ak sa nezobrazuje COM port:**
-   - **Možný problém:** Chýbajúce ovládače alebo zlý USB kábel
-   - **Riešenie 1:** Skúste iný USB kábel (niektoré káble sú iba na napájanie)
-   - **Riešenie 2:** Nainštalujte CH340 ovládače:
-     - Stiahnite z: https://www.wch.cn/downloads/CH341SER_EXE.html
-     - Nainštalujte a reštartujte PC
-   - **Riešenie 3:** Skúste režim bootloadera:
-     - Odpojte ESP32-C6
-     - Podržte tlačidlo **BOOT**
-     - Pripojte USB kábel (stále držte BOOT)
-     - Uvoľnite BOOT po 2 sekundách
+3. **If COM port doesn't appear:**
+   - **Possible issue:** Missing drivers or bad USB cable
+   - **Solution 1:** Try a different USB cable (some cables are power-only)
+   - **Solution 2:** Install CH340 drivers:
+     - Download from: https://www.wch.cn/downloads/CH341SER_EXE.html
+     - Install and restart PC
+   - **Solution 3:** Try bootloader mode:
+     - Disconnect ESP32-C6
+     - Hold the **BOOT** button
+     - Connect USB cable (still hold BOOT)
+     - Release BOOT after 2 seconds
 
 ---
 
-## Časť 4: Kompilácia a nahratie projektu
+## Part 4: Compiling and Uploading the Project
 
-### Krok 4.1: Otvorenie projektu v VS Code
+### Step 4.1: Opening the Project in VS Code
 
-1. **Otvorte VS Code**
+1. **Open VS Code**
 
-2. **Otvorte projekt:**
+2. **Open project:**
    - `File` → `Open Folder...`
-   - Vyberte priečinok s projektom: `C:\Users\...\C6_Thermometer`
-   - Kliknite **"Select Folder"**
+   - Select project folder: `C:\Users\...\C6_Thermometer`
+   - Click **"Select Folder"**
 
-3. **Dôverujte priečinku:**
-   - Ak sa zobrazí výzva "Do you trust the authors...", kliknite **"Yes, I trust the authors"**
+3. **Trust the folder:**
+   - If prompted "Do you trust the authors...", click **"Yes, I trust the authors"**
 
-### Krok 4.2: Výber cieľového čipu (Target)
+### Step 4.2: Selecting Target Chip (Target)
 
-1. **Otvorte Command Palette:**
+1. **Open Command Palette:**
    - `Ctrl+Shift+P`
 
-2. **Nastavte target:**
-   - Zadajte: **"ESP-IDF: Set Espressif Device Target"**
-   - Vyberte: **"esp32c6"**
-   - Kliknite Enter
+2. **Set target:**
+   - Type: **"ESP-IDF: Set Espressif Device Target"**
+   - Select: **"esp32c6"**
+   - Press Enter
 
-3. **Počkajte na dokončenie:**
-   - Extension nakonfiguruje projekt pre ESP32-C6
+3. **Wait for completion:**
+   - Extension will configure the project for ESP32-C6
 
-### Krok 4.3: Výber sériového portu
+### Step 4.3: Selecting Serial Port
 
-1. **Otvorte Command Palette:**
+1. **Open Command Palette:**
    - `Ctrl+Shift+P`
 
-2. **Vyberte port:**
-   - Zadajte: **"ESP-IDF: Select Port to Use"**
-   - Vyberte port vášho zariadenia (napr. **COM3**)
+2. **Select port:**
+   - Type: **"ESP-IDF: Select Port to Use"**
+   - Select your device's port (e.g. **COM3**)
 
-### Krok 4.4: Konfigurácia projektu (menuconfig)
+### Step 4.4: Project Configuration (menuconfig)
 
-1. **Otvorte menuconfig:**
+1. **Open menuconfig:**
    - `Ctrl+Shift+P`
-   - Zadajte: **"ESP-IDF: SDK Configuration Editor (menuconfig)"**
-   - Otvorí sa grafické rozhranie
+   - Type: **"ESP-IDF: SDK Configuration Editor (menuconfig)"**
+   - A graphical interface will open
 
-2. **Skontrolujte nastavenia:**
+2. **Check settings:**
    - **Component config → Zigbee:**
      - ✅ Enable Zigbee
      - ✅ Zigbee ZCZR (Router)
@@ -324,88 +324,88 @@ Ak VS Code extension naďalej nefunguje, môžete používať priamo ESP-IDF Pow
    - **Partition Table:**
      - Custom partition table CSV: `partitions.csv`
 
-3. **Uložte a zatvorte:**
-   - Kliknite na **"Save"** (hore vpravo)
-   - Zatvorte menuconfig
+3. **Save and close:**
+   - Click **"Save"** (top right)
+   - Close menuconfig
 
-### Krok 4.5: Kompilácia projektu (Build)
+### Step 4.5: Compiling the Project (Build)
 
-1. **Spustite build:**
-   - **Spôsob 1:** Kliknite na ikonu **Build** v dolnom paneli VS Code (ikona kladiva)
-   - **Spôsob 2:** `Ctrl+Shift+P` → **"ESP-IDF: Build your Project"**
-   - **Spôsob 3:** Stlačte `Ctrl+E` → `B`
+1. **Start build:**
+   - **Method 1:** Click the **Build** icon in VS Code's bottom panel (hammer icon)
+   - **Method 2:** `Ctrl+Shift+P` → **"ESP-IDF: Build your Project"**
+   - **Method 3:** Press `Ctrl+E` → `B`
 
-2. **Sledujte výstup:**
-   - V termináli uvidíte priebeh kompilácie
-   - **Prvá kompilácia** môže trvať 5-10 minút (sťahujú sa komponenty)
-   - **Ďalšie kompilácie** sú rýchlejšie (1-2 minúty)
+2. **Monitor output:**
+   - In the terminal you will see the compilation progress
+   - **First compilation** may take 5-10 minutes (downloading components)
+   - **Subsequent compilations** are faster (1-2 minutes)
 
-3. **Úspešná kompilácia:**
-   - Na konci uvidíte:
+3. **Successful compilation:**
+   - At the end you will see:
      ```
      Project build complete. To flash, run:
      idf.py flash
      ```
 
-4. **Ak sa vyskytli chyby:**
-   - Skontrolujte výstup terminálu
-   - Overte, že máte správne nastavený target (esp32c6)
-   - Skontrolujte, či sú všetky súbory projektu prítomné
+4. **If errors occurred:**
+   - Check the terminal output
+   - Verify that you have the correct target set (esp32c6)
+   - Check that all project files are present
 
-### Krok 4.6: Nahratie programu do ESP32-C6 (Flash)
+### Step 4.6: Uploading Program to ESP32-C6 (Flash)
 
-1. **Overte pripojenie:**
-   - ESP32-C6 je pripojený cez USB
-   - Port je správne vybraný
+1. **Verify connection:**
+   - ESP32-C6 is connected via USB
+   - Port is correctly selected
 
-2. **Nahrajte program:**
-   - **Spôsob 1:** Kliknite na ikonu **Flash** (blesk) v dolnom paneli
-   - **Spôsob 2:** `Ctrl+Shift+P` → **"ESP-IDF: Flash your Project"**
-   - **Spôsob 3:** Stlačte `Ctrl+E` → `F`
+2. **Upload program:**
+   - **Method 1:** Click the **Flash** icon (lightning) in the bottom panel
+   - **Method 2:** `Ctrl+Shift+P` → **"ESP-IDF: Flash your Project"**
+   - **Method 3:** Press `Ctrl+E` → `F`
 
-3. **Sledujte priebeh:**
-   - Zobrazí sa: `Connecting...`
-   - Potom: `Writing at 0x...`
-   - Na konci: `Hash of data verified`
+3. **Monitor progress:**
+   - You will see: `Connecting...`
+   - Then: `Writing at 0x...`
+   - At the end: `Hash of data verified`
 
-4. **Ak sa vyskytne chyba "Failed to connect":**
-   - **Riešenie:** Prejdite do bootloader režimu:
-     1. Odpojte USB
-     2. Podržte tlačidlo **BOOT** na XIAO
-     3. Pripojte USB (stále držte BOOT)
-     4. Počkajte 2 sekundy
-     5. Uvoľnite BOOT
-     6. Znovu spustite Flash
+4. **If "Failed to connect" error occurs:**
+   - **Solution:** Enter bootloader mode:
+     1. Disconnect USB
+     2. Hold the **BOOT** button on XIAO
+     3. Connect USB (still hold BOOT)
+     4. Wait 2 seconds
+     5. Release BOOT
+     6. Run Flash again
 
-### Krok 4.7: Sledovanie výstupu (Monitor)
+### Step 4.7: Monitoring Output (Monitor)
 
-1. **Otvorte monitor:**
-   - **Spôsob 1:** Kliknite na ikonu **Monitor** (obrazovka) v dolnom paneli
-   - **Spôsob 2:** `Ctrl+Shift+P` → **"ESP-IDF: Monitor your Device"**
-   - **Spôsob 3:** Stlačte `Ctrl+E` → `M`
+1. **Open monitor:**
+   - **Method 1:** Click on **Monitor** icon (screen) in bottom panel
+   - **Method 2:** `Ctrl+Shift+P` → **"ESP-IDF: Monitor your Device"**
+   - **Method 3:** Press `Ctrl+E` → `M`
 
-2. **Sledujte logy:**
-   - Uvidíte bootovací výstup ESP32-C6
-   - Informácie o inicializácii Zigbee
-   - Skenování DS18B20 senzorov
-   - Hodnoty teplôt
+2. **Monitor logs:**
+   - You will see ESP32-C6 boot output
+   - Zigbee initialization info
+   - DS18B20 sensor scanning
+   - Temperature values
 
-3. **Ukončenie monitora:**
-   - Stlačte `Ctrl+]`
+3. **Exit monitor:**
+   - Press `Ctrl+]`
 
-### Krok 4.8: Build, Flash a Monitor naraz
+### Step 4.8: Build, Flash and Monitor at once
 
-Pre rýchly vývoj môžete spustiť všetko naraz:
+For quick development you can run everything at once:
 
-1. **Spustite Flash & Monitor:**
+1. **Run Flash & Monitor:**
    - `Ctrl+Shift+P` → **"ESP-IDF: Build, Flash and Start a Monitor"**
-   - Alebo kliknite na ikonu **Flame** (oheň) v dolnom paneli
+   - Or click on **Flame** icon (fire) in bottom panel
 
 ---
 
-## Časť 5: Užitočné VS Code skratky pre ESP-IDF
+## Part 5: Useful VS Code Shortcuts for ESP-IDF
 
-| Skratka | Akcia |
+| Shortcut | Action |
 |---------|-------|
 | `Ctrl+E` `B` | Build project |
 | `Ctrl+E` `F` | Flash project |
@@ -417,98 +417,98 @@ Pre rýchly vývoj môžete spustiť všetko naraz:
 
 ---
 
-## Časť 6: Riešenie bežných problémov
+## Part 6: Troubleshooting Common Problems
 
-### Problém: "idf.py not found"
+### Problem: "idf.py not found"
 
-**Riešenie:**
-1. Overte, že ste otvorili **ESP-IDF PowerShell** (nie bežný PowerShell)
-2. Alebo v VS Code: `Ctrl+Shift+P` → **"ESP-IDF: Open ESP-IDF Terminal"**
+**Solution:**
+1. Verify that you opened **ESP-IDF PowerShell** (not regular PowerShell)
+2. Or in VS Code: `Ctrl+Shift+P` → **"ESP-IDF: Open ESP-IDF Terminal"**
 
-### Problém: "Port is busy" alebo "Permission denied"
+### Problem: "Port is busy" or "Permission denied"
 
-**Riešenie:**
-1. Zatvorte všetky programy používajúce sériový port (Arduino IDE, PuTTY, atď.)
-2. Zatvorte monitor (`Ctrl+]`)
-3. Skúste znovu
+**Solution:**
+1. Close all programs using the serial port (Arduino IDE, PuTTY, etc.)
+2. Close monitor (`Ctrl+]`)
+3. Try again
 
-### Problém: "Failed to connect to ESP32-C6"
+### Problem: "Failed to connect to ESP32-C6"
 
-**Riešenie:**
-1. Odpojte a znovu pripojte USB
-2. Skúste bootloader režim (BOOT tlačidlo)
-3. Skúste iný USB port
-4. Skúste iný USB kábel
-5. Znížte baud rate: `idf.py -p COM3 -b 115200 flash`
+**Solution:**
+1. Disconnect and reconnect USB
+2. Try bootloader mode (BOOT button)
+3. Try a different USB port
+4. Try a different USB cable
+5. Reduce baud rate: `idf.py -p COM3 -b 115200 flash`
 
-### Problém: Pomalá kompilácia
+### Problem: Slow compilation
 
-**Riešenie:**
-1. Pridajte výnimku do Windows Defender pre priečinok `C:\Espressif`
-2. Vypnite antivírus počas kompilácie
-3. Použite SSD disk
-4. Zvýšte počet vlákien: `idf.py build -j8`
+**Solution:**
+1. Add exception in Windows Defender for folder `C:\Espressif`
+2. Disable antivirus during compilation
+3. Use SSD disk
+4. Increase thread count: `idf.py build -j8`
 
-### Problém: "No module named 'serial'"
+### Problem: "No module named 'serial'"
 
-**Riešenie:**
+**Solution:**
 ```powershell
 pip install pyserial
 ```
 
 ---
 
-## Časť 7: Ďalšie kroky
+## Part 7: Next Steps
 
-### Pripojenie DS18B20 senzorov
+### Connecting DS18B20 Sensors
 
-Pozrite súbor: **DS18B20_ADDRESS_DETECTION.md**
+See file: **DS18B20_ADDRESS_DETECTION.md**
 
-### Konfigurácia Zigbee2MQTT
+### Configuring Zigbee2MQTT
 
-Pozrite súbor: **ZIGBEE2MQTT_CONFIG.md**
+See file: **ZIGBEE2MQTT_CONFIG.md**
 
-### Prispôsobenie kódu
+### Customizing Code
 
-1. **Zmena GPIO pinu pre OneWire:**
-   - Upravte `main/main.c`:
+1. **Change GPIO pin for OneWire:**
+   - Edit `main/main.c`:
      ```c
-     #define ONEWIRE_GPIO GPIO_NUM_5  // Zmeňte na požadovaný pin
+     #define ONEWIRE_GPIO GPIO_NUM_5  // Change to desired pin
      ```
 
-2. **Zmena threshold pre hlásenie:**
-   - Upravte `main/main.c`:
+2. **Change threshold for reporting:**
+   - Edit `main/main.c`:
      ```c
-     #define TEMP_REPORT_THRESHOLD 1.0f  // Zmeňte na požadovanú hodnotu
+     #define TEMP_REPORT_THRESHOLD 1.0f  // Change to desired value
      ```
 
-3. **Zmena periódy merania:**
-   - Upravte `temperature_sensor_task()` v `main/main.c`:
+3. **Change measurement period:**
+   - Edit `temperature_sensor_task()` in `main/main.c`:
      ```c
-     vTaskDelay(pdMS_TO_TICKS(5000));  // Zmeňte 5000 na požadovaný počet ms
+     vTaskDelay(pdMS_TO_TICKS(5000));  // Change 5000 to desired number of ms
      ```
 
 ---
 
-## Zhrnutie krokov pre nový projekt
+## Summary of Steps for New Project
 
-1. Otvorte **VS Code**
-2. Otvorte priečinok projektu
+1. Open **VS Code**
+2. Open project folder
 3. `Ctrl+Shift+P` → **"ESP-IDF: Set Espressif Device Target"** → `esp32c6`
-4. `Ctrl+Shift+P` → **"ESP-IDF: Select Port to Use"** → vybrať COM port
+4. `Ctrl+Shift+P` → **"ESP-IDF: Select Port to Use"** → select COM port
 5. `Ctrl+E` `D` (Build, Flash & Monitor)
-6. Sledujte logy v monitore
+6. Monitor logs in monitor
 
 ---
 
-## Užitočné odkazy
+## Useful Links
 
-- **ESP-IDF dokumentácia:** https://docs.espressif.com/projects/esp-idf/en/latest/
-- **ESP32-C6 dokumentácia:** https://www.espressif.com/en/products/socs/esp32-c6
+- **ESP-IDF documentation:** https://docs.espressif.com/projects/esp-idf/en/latest/
+- **ESP32-C6 documentation:** https://www.espressif.com/en/products/socs/esp32-c6
 - **Seeed XIAO ESP32-C6 Wiki:** https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/
 - **ESP-IDF VS Code Extension:** https://github.com/espressif/vscode-esp-idf-extension
-- **Zigbee dokumentácia:** https://docs.espressif.com/projects/esp-zigbee-sdk/
+- **Zigbee documentation:** https://docs.espressif.com/projects/esp-zigbee-sdk/
 
 ---
 
-**Gratulujem! Váše vývojové prostredie je pripravené na prácu s ESP32-C6! 🎉**
+**Congratulations! Your development environment is ready to work with ESP32-C6! 🎉**
