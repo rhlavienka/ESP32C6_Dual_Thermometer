@@ -89,8 +89,8 @@ This guide will step-by-step walk you through installing all necessary software 
 
 1. **Download ESP-IDF Offline Installer:**
    - Go to: https://dl.espressif.com/dl/esp-idf/
-   - Select the latest version (e.g. **esp-idf-5.5** or newer)
-   - Download: **esp-idf-tools-setup-offline-5.5.exe** (or online version if you have good internet)
+   - Select version **esp-idf-5.5.1** (or newer if available)
+   - Download: **esp-idf-tools-setup-offline-5.5.1.exe** (or online version if you have good internet)
 
    **Alternative - Online installer:**
    - https://dl.espressif.com/dl/esp-idf/
@@ -103,8 +103,8 @@ This guide will step-by-step walk you through installing all necessary software 
    - If **User Account Control** appears, click **"Yes"**
 
 2. **Select ESP-IDF version:**
-   - Select **"ESP-IDF v5.5"** or **"ESP-IDF v5.3"** (or the latest stable version)
-   - Click **"Next"**
+   - Select **"ESP-IDF v5.5.1"** (this is the version used in this project)
+   - Click **"Next"
 
 3. **Select installation path:**
    - Recommended path: `C:\Espressif`
@@ -114,11 +114,11 @@ This guide will step-by-step walk you through installing all necessary software 
 4. **Select tools:**
    - Leave checked:
      - ✅ ESP-IDF Tools
-     - ✅ ESP-IDF v5.5 (or your version)
+     - ✅ ESP-IDF v5.5.1
      - ✅ CMake
      - ✅ Ninja
      - ✅ Python packages
-   - Click **"Next"**
+   - Click **"Next"
 
 5. **Start installation:**
    - Click **"Install"**
@@ -128,14 +128,14 @@ This guide will step-by-step walk you through installing all necessary software 
 ### Step 2.3: Verifying ESP-IDF Installation
 
 1. **Open ESP-IDF PowerShell:**
-   - In the Start menu find: **"ESP-IDF 5.3 PowerShell"** or **"ESP-IDF PowerShell"**
+   - In the Start menu find: **"ESP-IDF 5.5.1 PowerShell"** or **"ESP-IDF PowerShell"**
    - Run it
 
 2. **Verify version:**
    ```powershell
    idf.py --version
    ```
-   - You should see: `ESP-IDF v5.3.x` (or your version)
+   - You should see: `ESP-IDF v5.5.1`
 
 3. **Verify compiler:**
    ```powershell
@@ -178,10 +178,10 @@ This guide will step-by-step walk you through installing all necessary software 
    - Click **"Continue"**
 
 4. **Set paths:**
-   - **ESP-IDF Path:** `C:\Espressif\frameworks\esp-idf-v5.3` (or your version)
+   - **ESP-IDF Path:** `C:\Espressif\frameworks\esp-idf-v5.5.1`
    - **ESP-IDF Tools Path:** `C:\Espressif`
-   - **Python Path:** Should be found automatically (e.g. `C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe`)
-   - Click **"Configure"**
+   - **Python Path:** Should be found automatically (e.g. `C:\Espressif\python_env\idf5.5_py3.11_env\Scripts\python.exe`)
+   - Click **"Configure"
 
 5. **Wait for completion:**
    - The extension will configure (may take 1-2 minutes)
@@ -196,19 +196,19 @@ This is a known issue with Python virtual environment. **Solution:**
 1. In step 3, select **"Advanced"** instead of "Express"
 2. Set:
    - **Select ESP-IDF version:** `Find ESP-IDF in your system`
-   - **Enter ESP-IDF directory:** `C:\Espressif\frameworks\esp-idf-v5.3`
-   - **Select Python:** `Use existing Python` → `C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe`
+   - **Enter ESP-IDF directory:** `C:\Espressif\frameworks\esp-idf-v5.5.1`
+   - **Select Python:** `Use existing Python` → `C:\Espressif\python_env\idf5.5_py3.11_env\Scripts\python.exe`
    - **Select Custom tools folder:** `C:\Espressif\tools`
-3. Click **"Configure"**
+3. Click **"Configure"
 
 **Variant 2 - Manual setup in VS Code settings:**
 
 1. Open VS Code Settings (`Ctrl+,`)
 2. Search for: `idf`
 3. Set these values:
-   - `Idf.espIdfPath`: `C:\Espressif\frameworks\esp-idf-v5.3`
+   - `Idf.espIdfPath`: `C:\Espressif\frameworks\esp-idf-v5.5.1`
    - `Idf.toolsPath`: `C:\Espressif\tools`
-   - `Idf.pythonBinPath`: `C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe`
+   - `Idf.pythonBinPath`: `C:\Espressif\python_env\idf5.5_py3.11_env\Scripts\python.exe`
    - `Idf.gitPath`: `C:\Program Files\Git\cmd\git.exe`
    - `Idf.customExtraPaths`: Leave empty
 4. Restart VS Code
@@ -217,7 +217,7 @@ This is a known issue with Python virtual environment. **Solution:**
 
 If VS Code extension still doesn't work, you can use ESP-IDF PowerShell directly:
 
-1. Open **ESP-IDF 5.3 PowerShell** (from Start menu)
+1. Open **ESP-IDF 5.5.1 PowerShell** (from Start menu)
 2. Navigate to the project:
    ```powershell
    cd "C:\Users\rhlavienka\OneDrive - SOFTIP, a.s\Documents\DevOps\PlayGround\ESP32\C6_Thermometer"
@@ -240,7 +240,7 @@ If VS Code extension still doesn't work, you can use ESP-IDF PowerShell directly
 1. Open **ESP-IDF PowerShell**
 2. Run:
    ```powershell
-   cd C:\Espressif\frameworks\esp-idf-v5.3
+   cd C:\Espressif\frameworks\esp-idf-v5.5.1
    python install.py
    ```
 3. Then in VS Code: `Ctrl+Shift+P` → **"ESP-IDF: Configure ESP-IDF Extension"** → Advanced
