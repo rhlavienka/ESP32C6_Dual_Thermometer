@@ -1,28 +1,28 @@
 # ESP32-C6 Zigbee Dual Thermometer
 
-Projekt pre **Seeed Studio XIAO ESP32-C6** na meranie teploty pomocou dvoch **DS18B20** senzorov a odosielanie dát cez **Zigbee** do **Home Assistant** pomocou **Zigbee2MQTT**.
+Project for **Seeed Studio XIAO ESP32-C6** to measure temperature using two **DS18B20** sensors and transmit data via **Zigbee** to **Home Assistant** using **Zigbee2MQTT**.
 
-## 📋 Vlastnosti
+## 📋 Features
 
-- ✅ **Dual DS18B20 senzory** na jednej OneWire zbernici (GPIO5)
-- ✅ **Automatická detekcia** DS18B20 senzorov a ich ROM adries
-- ✅ **Zigbee Router** funkcia (posilňuje Zigbee sieť)
-- ✅ **Inteligentné reportovanie** - posiela údaje len pri zmene teploty o ≥1°C
-- ✅ **Home Assistant integrácia** cez Zigbee2MQTT
-- ✅ **Dva nezávislé endpointy** v Zigbee (každý senzor samostatne)
-- ✅ **Nízka spotreba** energie
-- ✅ **Kompletná ESP-IDF implementácia** (C/C++)
+- ✅ **Dual DS18B20 sensors** on a single OneWire bus (GPIO5)
+- ✅ **Automatic detection** of DS18B20 sensors and their ROM addresses
+- ✅ **Zigbee Router** functionality (strengthens Zigbee network)
+- ✅ **Smart reporting** - sends data only when temperature changes by ≥1°C
+- ✅ **Home Assistant integration** via Zigbee2MQTT
+- ✅ **Two independent endpoints** in Zigbee (each sensor separately)
+- ✅ **Low power** consumption
+- ✅ **Complete ESP-IDF implementation** (C/C++)
 
-## 🔧 Hardvér
+## 🔧 Hardware
 
-### Potrebné komponenty:
+### Required Components:
 - 1× **Seeed Studio XIAO ESP32-C6**
-- 2× **DS18B20 digitálny teplotný senzor**
-- 1× **Odpor 4.7kΩ** (pull-up pre OneWire)
-- Vodiče a breadboard
-- USB-C kábel (s dátovými vodičmi)
+- 2× **DS18B20 digital temperature sensor**
+- 1× **4.7kΩ resistor** (pull-up for OneWire)
+- Wires and breadboard
+- USB-C cable (with data wires)
 
-### Zapojenie:
+### Wiring:
 
 ```
 ESP32-C6 (XIAO)          DS18B20 #1          DS18B20 #2
@@ -41,65 +41,65 @@ GND -----------------+--- GND -----------+--- GND
 - **3.3V** = 3V3 pin
 - **GND** = GND pin
 
-## 📂 Štruktúra projektu
+## 📂 Project Structure
 
 ```
 C6_Thermometer/
 ├── main/
-│   ├── main.c              # Hlavný program (Zigbee + DS18B20)
+│   ├── main.c              # Main program (Zigbee + DS18B20)
 │   ├── onewire_bus.c       # OneWire driver
 │   ├── onewire_bus.h
 │   ├── ds18b20.c           # DS18B20 driver
 │   ├── ds18b20.h
-│   └── CMakeLists.txt      # Build konfigurácia
+│   └── CMakeLists.txt      # Build configuration
 ├── CMakeLists.txt          # Root CMake
-├── partitions.csv          # Partition table pre Zigbee
-├── sdkconfig.defaults      # ESP-IDF konfigurácia
-├── INSTALL.md              # Inštalačný návod
-├── DS18B20_ADDRESS_DETECTION.md  # Návod na detekciu senzorov
-├── ZIGBEE2MQTT_CONFIG.md   # Konfigurácia Z2M
-└── README.md               # Tento súbor
+├── partitions.csv          # Partition table for Zigbee
+├── sdkconfig.defaults      # ESP-IDF configuration
+├── INSTALL.md              # Installation guide
+├── DS18B20_ADDRESS_DETECTION.md  # Sensor detection guide
+├── ZIGBEE2MQTT_CONFIG.md   # Z2M configuration
+└── README.md               # This file
 ```
 
-## 🚀 Rýchly štart
+## 🚀 Quick Start
 
-### 1. Príprava vývojového prostredia
+### 1. Development Environment Setup
 
-Postupujte podľa **[INSTALL.md](INSTALL.md)** pre podrobný návod na inštaláciu:
-- ESP-IDF (v5.3 alebo novší)
+Follow **[INSTALL.md](INSTALL.md)** for detailed installation instructions:
+- ESP-IDF (v5.3 or newer)
 - Visual Studio Code
 - ESP-IDF VS Code extension
 
-### 2. Klonovanie/otvorenie projektu
+### 2. Clone/Open Project
 
 ```powershell
-# Otvorte VS Code
-# File → Open Folder → vyberte priečinok C6_Thermometer
+# Open VS Code
+# File → Open Folder → select C6_Thermometer folder
 ```
 
-### 3. Nastavenie targetu
+### 3. Set Target
 
 ```powershell
-# V VS Code: Ctrl+Shift+P
+# In VS Code: Ctrl+Shift+P
 ESP-IDF: Set Espressif Device Target → esp32c6
 ```
 
-### 4. Pripojenie hardvéru
+### 4. Connect Hardware
 
-1. Zapojte DS18B20 senzory podľa schémy vyššie
-2. Pripojte XIAO ESP32-C6 cez USB-C k PC
+1. Wire DS18B20 sensors according to the schema above
+2. Connect XIAO ESP32-C6 via USB-C to PC
 
-### 5. Build a Flash
+### 5. Build and Flash
 
 ```powershell
-# V VS Code: Ctrl+E D
-# Alebo:
+# In VS Code: Ctrl+E D
+# Or:
 idf.py build flash monitor
 ```
 
-### 6. Sledovanie výstupu
+### 6. Monitor Output
 
-Po nahratí otvorte sériový monitor (115200 baud) a uvidíte:
+After flashing, open serial monitor (115200 baud) and you will see:
 
 ```
 I (xxx) ZIGBEE_THERMO: ESP32-C6 Zigbee Thermometer Starting...
@@ -116,43 +116,43 @@ I (xxx) ZIGBEE_THERMO: Joined network successfully
 I (xxx) DS18B20: Temperature: 23.50°C
 ```
 
-## 🏠 Integrácia s Home Assistant
+## 🏠 Home Assistant Integration
 
-### 1. Pripojenie do Zigbee siete
+### 1. Connect to Zigbee Network
 
-1. Otvorte **Zigbee2MQTT** web rozhranie
-2. Povoľte **"Permit Join"**
-3. Reštartujte ESP32-C6
-4. Počkajte na automatické párovanie
+1. Open **Zigbee2MQTT** web interface
+2. Enable **"Permit Join"**
+3. Restart ESP32-C6
+4. Wait for automatic pairing
 
-### 2. Konfigurácia
+### 2. Configuration
 
-Postupujte podľa **[ZIGBEE2MQTT_CONFIG.md](ZIGBEE2MQTT_CONFIG.md)** pre:
-- Automatickú detekciu zariadenia
-- Custom konvertor (ak je potrebný)
-- Home Assistant entity a automatizácie
+Follow **[ZIGBEE2MQTT_CONFIG.md](ZIGBEE2MQTT_CONFIG.md)** for:
+- Automatic device detection
+- Custom converter (if needed)
+- Home Assistant entities and automations
 
-### 3. Výsledok v Home Assistant
+### 3. Result in Home Assistant
 
-Po úspešnom párovaní uvidíte:
+After successful pairing you will see:
 - `sensor.esp32c6_thermometer_sensor1_temperature`
 - `sensor.esp32c6_thermometer_sensor2_temperature`
 
-## 📝 Dôležité informácie
+## 📝 Important Information
 
 ### Zigbee Endpoints:
-- **Endpoint 11** = Senzor 1 (prvý nájdený DS18B20)
-- **Endpoint 12** = Senzor 2 (druhý nájdený DS18B20)
+- **Endpoint 11** = Sensor 1 (first detected DS18B20)
+- **Endpoint 12** = Sensor 2 (second detected DS18B20)
 
-### Reportovanie teploty:
-- **Periódické meranie:** každých 5 sekúnd
-- **Odoslanie do Z2M:** iba pri zmene ≥ 1°C
-- **Rozlíšenie:** 0.0625°C (12-bit ADC DS18B20)
+### Temperature Reporting:
+- **Periodic measurement:** every 5 seconds
+- **Send to Z2M:** only on change ≥ 1°C
+- **Resolution:** 0.0625°C (12-bit ADC DS18B20)
 
-### GPIO piny:
-- **GPIO5** = OneWire zbernica pre DS18B20
-- **GPIO14** = Výber antény (LOW = interná, HIGH = externá)
-- **GPIO3** = Enable RF switch (musí byť LOW pre použitie antén)
+### GPIO Pins:
+- **GPIO5** = OneWire bus for DS18B20
+- **GPIO14** = Antenna selection (LOW = internal, HIGH = external)
+- **GPIO3** = Enable RF switch (must be LOW to use antennas)
 
 ## 🔍 Detekcia DS18B20 senzorov
 
@@ -180,77 +180,77 @@ V súbore `main/main.c`:
 
 V `temperature_sensor_task()`:
 ```c
-vTaskDelay(pdMS_TO_TICKS(5000));  // 5000 ms = 5 sekúnd
+vTaskDelay(pdMS_TO_TICKS(5000));  // 5000 ms = 5 seconds
 ```
 
-## 🐛 Riešenie problémov
+## 🐛 Troubleshooting
 
-### Senzory sa nenašli:
-- Skontrolujte zapojenie (VDD, GND, DATA)
-- Overte pull-up rezistor 4.7kΩ
-- Použite kratšie vodiče (max ~30m)
-- Otestujte senzory samostatne
+### Sensors not found:
+- Check wiring (VDD, GND, DATA)
+- Verify pull-up resistor 4.7kΩ
+- Use shorter wires (max ~30m)
+- Test sensors separately
 
-### Zigbee sa nepripája:
-- Povoľte "Permit Join" v Z2M
-- Reštartujte ESP32-C6
-- Skontrolujte Zigbee kanál
-- Overte logy v sériovom monitore
+### Zigbee not connecting:
+- Enable "Permit Join" in Z2M
+- Restart ESP32-C6
+- Check Zigbee channel
+- Verify logs in serial monitor
 
-### Teploty sa neaktualizujú:
-- Skontrolujte binding a reporting v Z2M
-- Overte threshold (1°C)
-- Sledujte logy v monitore
+### Temperatures not updating:
+- Check binding and reporting in Z2M
+- Verify threshold (1°C)
+- Monitor logs in serial monitor
 
-Podrobné riešenie problémov nájdete v dokumentácii.
+Detailed troubleshooting can be found in the documentation.
 
-## 📚 Dokumentácia
+## 📚 Documentation
 
-### Základná dokumentácia:
-- **[INSTALL.md](INSTALL.md)** - Podrobný inštalačný návod pre Windows
-- **[WIRING.md](WIRING.md)** - Schéma zapojenia a pinout
-- **[DS18B20_ADDRESS_DETECTION.md](DS18B20_ADDRESS_DETECTION.md)** - Detekcia senzorov
-- **[ZIGBEE2MQTT_CONFIG.md](ZIGBEE2MQTT_CONFIG.md)** - Konfigurácia Z2M
+### Basic Documentation:
+- **[INSTALL.md](INSTALL.md)** - Detailed installation guide for Windows
+- **[WIRING.md](WIRING.md)** - Wiring schema and pinout
+- **[DS18B20_ADDRESS_DETECTION.md](DS18B20_ADDRESS_DETECTION.md)** - Sensor detection
+- **[ZIGBEE2MQTT_CONFIG.md](ZIGBEE2MQTT_CONFIG.md)** - Z2M configuration
 
-### Pokročilá dokumentácia:
-- **[HOME_ASSISTANT_EXAMPLES.md](HOME_ASSISTANT_EXAMPLES.md)** - Príklady automatizácií a Lovelace kariet
-- **[FAQ.md](FAQ.md)** - Často kladené otázky (50+ otázok)
-- **[CHANGELOG.md](CHANGELOG.md)** - História zmien
-- **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Súhrn projektu
+### Advanced Documentation:
+- **[HOME_ASSISTANT_EXAMPLES.md](HOME_ASSISTANT_EXAMPLES.md)** - Automation examples and Lovelace cards
+- **[FAQ.md](FAQ.md)** - Frequently Asked Questions (50+ questions)
+- **[CHANGELOG.md](CHANGELOG.md)** - Change history
+- **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Project summary
 
-## 🔗 Užitočné odkazy
+## 🔗 Useful Links
 
-- [ESP-IDF dokumentácia](https://docs.espressif.com/projects/esp-idf/en/latest/)
+- [ESP-IDF documentation](https://docs.espressif.com/projects/esp-idf/en/latest/)
 - [ESP32-C6 datasheet](https://www.espressif.com/sites/default/files/documentation/esp32-c6_datasheet_en.pdf)
 - [Seeed XIAO ESP32-C6 Wiki](https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/)
 - [DS18B20 datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/DS18B20.pdf)
-- [Zigbee2MQTT dokumentácia](https://www.zigbee2mqtt.io/)
+- [Zigbee2MQTT documentation](https://www.zigbee2mqtt.io/)
 
-## 📄 Licencia
+## 📄 License
 
-Tento projekt je voľne použiteľný pre osobné aj komerčné účely.
+This project is freely usable for personal and commercial purposes.
 
-## 🤝 Podpora
+## 🤝 Support
 
-Pri problémoch:
-1. Skontrolujte dokumentáciu v tomto repozitári
-2. Overte hardware zapojenie
-3. Skontrolujte logy v sériovom monitore
-4. Overte verzie softvéru (ESP-IDF 5.3+)
+In case of problems:
+1. Check documentation in this repository
+2. Verify hardware wiring
+3. Check logs in serial monitor
+4. Verify software versions (ESP-IDF 5.3+)
 
-## 🎯 Budúce vylepšenia
+## 🎯 Future Improvements
 
-- [ ] Podpora pre viac ako 2 senzory
-- [ ] Konfigurovateľný threshold cez Zigbee
+- [ ] Support for more than 2 sensors
+- [ ] Configurable threshold via Zigbee
 - [ ] OTA (Over-The-Air) update
-- [ ] Deep sleep režim (pre batériové napájanie)
-- [ ] Kalibrácia senzorov
-- [ ] Detekcia chýb senzorov a obnova
+- [ ] Deep sleep mode (for battery operation)
+- [ ] Sensor calibration
+- [ ] Sensor error detection and recovery
 
 ---
 
-**Vytvorené pre:** Seeed Studio XIAO ESP32-C6  
+**Created for:** Seeed Studio XIAO ESP32-C6  
 **Framework:** ESP-IDF v5.3+  
-**Protokol:** Zigbee 3.0  
-**Verzia:** 1.0  
-**Dátum:** November 2025
+**Protocol:** Zigbee 3.0  
+**Version:** 1.0  
+**Date:** November 2025

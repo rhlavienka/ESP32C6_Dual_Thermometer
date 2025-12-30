@@ -1,95 +1,95 @@
-# Poznámky pre ESP-IDF 5.5.1
+# ESP32-IDF 5.5.1 Notes
 
-## Zmeny oproti dokumentácii pre ESP-IDF 5.3
+## Changes from ESP-IDF 5.3 Documentation
 
-### Zigbee komponenty
+### Zigbee Components
 
-V **ESP-IDF 5.5.1** boli Zigbee komponenty presunuté do samostatných balíkov spravovaných cez **IDF Component Manager**:
+In **ESP-IDF 5.5.1**, the Zigbee components were moved to separate packages managed via **IDF Component Manager**:
 
-- `esp_zigbee_core` → Už nie je v základnom ESP-IDF
-- `esp_zigbee_cluster` → Už nie je v základnom ESP-IDF  
-- `esp_zigbee_attribute` → Už nie je v základnom ESP-IDF
+- sp_zigbee_core → No longer in base ESP-IDF
+- sp_zigbee_cluster → No longer in base ESP-IDF  
+- sp_zigbee_attribute → No longer in base ESP-IDF
 
-### Riešenie
+### Solution
 
-Zigbee komponenty sa musia pridať cez **IDF Component Manager** v súbore `main/idf_component.yml`:
+Zigbee components must be added via **IDF Component Manager** in the main/idf_component.yml file:
 
-```yaml
+`yaml
 dependencies:
   espressif/esp-zigbee-lib: "^1.5.0"
   espressif/esp-zboss-lib: "^1.5.0"
   idf:
     version: ">=5.1.0"
-```
+`
 
-### CMakeLists.txt zmeny
+### CMakeLists.txt Changes
 
-`main/CMakeLists.txt` musí obsahovať:
+main/CMakeLists.txt must contain:
 
-```cmake
+`cmake
 idf_component_register(SRCS "main.c" "onewire_bus.c" "ds18b20.c"
                     INCLUDE_DIRS "."
                     REQUIRES driver nvs_flash esp-zigbee-lib)
-```
+`
 
-**Poznámka:** Názov komponenty je `esp-zigbee-lib` (s pomlčkou), nie `esp_zigbee_lib` (s podčiarkami).
+**Note:** The component name is sp-zigbee-lib (with dash), not sp_zigbee_lib (with underscores).
 
-### Hlavičkové súbory
+### Header Files
 
-V `main.c` stačí includeovať:
+In main.c, it's sufficient to include:
 
-```c
+`c
 #include "esp_zigbee_core.h"
-```
+`
 
-Ostatné Zigbee hlavičky (`esp_zigbee_cluster.h`, `esp_zigbee_attribute.h`) sú automaticky zahrnuté.
+Other Zigbee headers (sp_zigbee_cluster.h, sp_zigbee_attribute.h) are automatically included.
 
-### Prvý build
+### First Build
 
-Pri prvom builduproti môže Component Manager sťahovať závislosti:
+On the first build, the Component Manager may download dependencies:
 
-```
+`
 NOTICE: Processing 3 dependencies:
 NOTICE: [1/3] espressif/esp-zboss-lib (1.6.4)
 NOTICE: [2/3] espressif/esp-zigbee-lib (1.6.8)
 NOTICE: [3/3] idf (5.5.1)
-```
+`
 
-Komponenty sa ukladajú do `managed_components/` priečinka.
+Components are stored in the managed_components/ folder.
 
-### Verzie komponentov
+### Component Versions
 
-- **esp-zigbee-lib**: v1.6.8 (alebo novšia)
-- **esp-zboss-lib**: v1.6.4 (alebo novšia)
+- **esp-zigbee-lib**: v1.6.8 (or newer)
+- **esp-zboss-lib**: v1.6.4 (or newer)
 
-Tieto verzie sú kompatibilné s ESP-IDF 5.5.1 a ESP32-C6.
+These versions are compatible with ESP-IDF 5.5.1 and ESP32-C6.
 
-## Automatická inštalácia
+## Automatic Installation
 
-Pri spustení `idf.py set-target esp32c6` sa automaticky:
+When running idf.py set-target esp32c6, it automatically:
 
-1. Prečíta `main/idf_component.yml`
-2. Stiahnu sa potrebné komponenty z ESP Component Registry
-3. Vytvorí sa `dependencies.lock` súbor
-4. Komponenty sa uložia do `managed_components/`
+1. Reads main/idf_component.yml
+2. Downloads required components from ESP Component Registry
+3. Creates dependencies.lock file
+4. Stores components in managed_components/
 
-## Ak máte problémy
+## If You Have Problems
 
-Skúste:
+Try:
 
-```powershell
-# Vymazať build a lock súbory
+`powershell
+# Delete build and lock files
 Remove-Item -Recurse -Force build
 Remove-Item dependencies.lock
 
-# Znovu nastaviť target
+# Re-set target
 idf.py set-target esp32c6
 
 # Build
 idf.py build
-```
+`
 
-## Viac informácií
+## More Information
 
 - [ESP Component Registry](https://components.espressif.com/)
 - [esp-zigbee-lib](https://components.espressif.com/components/espressif/esp-zigbee-lib)

@@ -1,6 +1,6 @@
-# Schéma zapojenia - ESP32-C6 + DS18B20
+# Wiring Diagram - ESP32-C6 + DS18B20
 
-## Základné zapojenie
+## Basic Wiring
 
 ```
                     SEEED XIAO ESP32-C6
