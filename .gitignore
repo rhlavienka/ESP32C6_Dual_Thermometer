@@ -1,0 +1,39 @@
+# ESP-IDF build artifacts
+build/
+sdkconfig
+sdkconfig.old
+*.pyc
+__pycache__/
+
+# Dependencies
+dependencies.lock
+managed_components/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Project specific
+main/main.c.bak
+prompt.txt
+translate_helper.ps1
+
+# Firmware releases (use GitHub Releases instead)
+firmware/
+release-notes.md
+
+# Old OTA binaries (use GitHub Releases instead)
+ota/
+
+# Internal documentation (not for public)
+RELEASE_WORKFLOW.md

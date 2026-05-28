@@ -1,0 +1,36 @@
+
+# ESP32-H2 Zigbee Router — sdkconfig.defaults
+# Target: ESP32-H2 Super Mini
+# Role: Mains-powered Zigbee Router
+# ESP-IDF: v5.5.x
+
+# --- Zigbee / IEEE 802.15.4 ---
+CONFIG_IEEE802154_ENABLED=y
+CONFIG_ZB_ENABLED=y
+CONFIG_ZB_ZCZR=y
+CONFIG_ZB_RADIO_NATIVE=y
+# Primary channel mask is set programmatically in code (channel 11)
+
+# --- Partition Table ---
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_FILENAME="partitions.csv"
+
+# --- Compiler / System ---
+CONFIG_COMPILER_OPTIMIZATION_SIZE=y
+CONFIG_FREERTOS_HZ=1000
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=10
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=4096
+
+# --- Logging ---
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_LOG_DEFAULT_LEVEL=3
+
+# --- Bootloader / Flash ---
+CONFIG_BOOTLOADER_LOG_LEVEL_INFO=y
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="4MB"
+
+# --- ESP32-H2 specific ---
+# No WiFi on ESP32-H2 — only IEEE 802.15.4 and BLE
+# No RF switch configuration needed (direct antenna)
